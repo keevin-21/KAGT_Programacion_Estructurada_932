@@ -31,7 +31,7 @@ void calculateGrade();
 void generateMultiplicationTable();
 void calculateStatistics();
 void calculateAverageWeight();
-void checkTouristWeight();
+void asig_grade();
 
 int getInput(char message[], int min, int max);
 int askToExit();
@@ -59,7 +59,7 @@ void displayMenu() {
                 calculateAverageWeight();
                 break;
             case 5:
-                checkTouristWeight();
+                asig_grade();
                 break;
         }
     } while (choice != 0);
@@ -73,7 +73,7 @@ int getMenuChoice() {
     printf("2.- Generate Multiplication Table\n");
     printf("3.- Calculate Statistics\n");
     printf("4.- Calculate Average Tourist Weight\n");
-    printf("5.- Check Tourist Weight\n");
+    printf("5.- 3 Attemps grade\n");
     printf("0.- Exit\n");
     choice = getInput("Select an option: ", 0, 5);
     return choice;
@@ -163,37 +163,55 @@ void calculateAverageWeight() {
     } while (op != 1);
 }
 
-void checkTouristWeight() {
-    int numTourists, op;
-    float touristWeight, totalWeight, weightWithExcess;
-    do {
-        totalWeight = 0;
-        weightWithExcess = 0;
+void asig_grade()
+{
+    int calp1, calp2, calp3, average, attempts, op;
+    attempts = 0;
 
-        numTourists = getInput("Enter the number of tourists on board: ", 0, INT_MAX);
+    do
+    {
+        printf("PARTIAL EXAMS\n");
+        for (int i = 1; i <= 3; i++)
+        {
+            calp1 = getInput("Enter the score for the first partial exam: ", 0, 100);
+            calp2 = getInput("Enter the score for the second partial exam: ", 0, 100);
+            calp3 = getInput("Enter the score for the third partial exam: ", 0, 100);
 
-        for (int i = 0; i < numTourists; i++) {
-            touristWeight = getInput("Enter the weight of tourist %d: ", 0, INT_MAX);
-            totalWeight += touristWeight;
-        }
+            average = (calp1 + calp2 + calp3) / 3;
 
-        if (numTourists <= 10) {
-            printf("Maximum of 10 tourists allowed.\n");
-        } else {
-            printf("Exceeded maximum number of tourists on board.\n");
-        }
-
-        weightWithExcess = totalWeight * 1.15;
-
-        if (weightWithExcess <= 700) {
-            printf("Maximum total weight of tourists with 15%% excess: %.2f kg\n", weightWithExcess);
-        } else {
-            printf("Exceeded maximum total weight with 15%% excess.\n");
+            if (average >= 60)
+            {
+                if (attempts < 3)
+                {
+                    printf("Passed with an average score of %d\n", average);
+                    break; // Exit the for loop if passed.
+                }
+                else
+                {
+                    printf("You have been dismissed for reaching the maximum number of attempts.\n");
+                    break; // Exit the for loop if maximum attempts reached.
+                }
+            }
+            else
+            {
+                if (attempts < 3)
+                {
+                    printf("You must retake the course with an average score of %d\n", average);
+                    attempts++;
+                }
+                else
+                {
+                    printf("You have been dismissed for reaching the maximum number of attempts.\n");
+                    break; // Exit the for loop if maximum attempts reached.
+                }
+            }
         }
 
         op = askToExit();
     } while (op != 1);
 }
+
+
 
 int getInput(char message[], int min, int max) {
     int num;
