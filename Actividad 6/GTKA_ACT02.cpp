@@ -184,12 +184,12 @@ void asig_grade()
                 if (attempts < 3)
                 {
                     printf("Passed with an average score of %d\n", average);
-                    break; // Exit the for loop if passed.
+                    break;
                 }
                 else
                 {
                     printf("You have been dismissed for reaching the maximum number of attempts.\n");
-                    break; // Exit the for loop if maximum attempts reached.
+                    break;
                 }
             }
             else
@@ -202,7 +202,7 @@ void asig_grade()
                 else
                 {
                     printf("You have been dismissed for reaching the maximum number of attempts.\n");
-                    break; // Exit the for loop if maximum attempts reached.
+                    break;
                 }
             }
         }
