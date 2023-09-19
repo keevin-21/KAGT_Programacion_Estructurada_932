@@ -261,17 +261,18 @@ void menuDigitCounter()
 void digitCounterFor()
 {
     int num, aux, dig;
+    int i = 0;
     
     printf("Numero a contar los digitos: ");
     scanf("%i", &num);
     
     aux = num;
-    for (int i = 0; aux > 0; i++)
+    for (i; aux > 0; i++)
     {
         aux = aux / 10;
     }
     
-    printf("%i", dig);
+    printf("%i", i);
 }
 void digitCounterWhile()
 {
@@ -288,7 +289,7 @@ void digitCounterWhile()
         i++;
     }
 
-    printf("%i", dig);
+    printf("%i", i);
 }
 void digitCounterDoWhile()
 {
@@ -305,5 +306,5 @@ void digitCounterDoWhile()
         i++;
     } while (aux > 0);
 
-    printf("%i", dig);
+    printf("%i", i);
 }
