@@ -225,6 +225,7 @@ void manyFunctions(char string[])
 }
 int isPalindrome(char string[])
 {
+    noSpacesString(string);
     int length = lengthString(string);
     int left = 0;
     int right = length - 1;
