@@ -7,7 +7,7 @@ Actividad 7 - Parte 1:
     1.- This function takes a string as input and converts it to uppercase.
 
     2.- This function takes a string as input and reverses it.
-    
+
     3.- This function takes a string as input and displays each character of the string one by one in uppercase.
 
     4.- This function takes a string as input and displays each character of the reversed string one by one in uppercase.
@@ -29,14 +29,16 @@ Actividad 7 - Parte 1:
 #include <string.h>
 
 void menu(char *);
-char* uppercaseString(char *);
-char* reversedString(char *);
+char *uppercaseString(char *);
+char *reversedString(char *);
 void lettbylettString(char *);
 void lettbylettReverseString(char *);
 void ladderString(char *);
 void ladderReverseString(char *);
 void ladderString_2(char *);
 void ladderReverseString_2(char *);
+void consonantString(char *);
+void vocalString(char *);
 
 int main()
 {
@@ -86,12 +88,19 @@ void menu(char string[])
         break;
     case 8:
         ladderReverseString_2(string);
+        break;
+    case 9:
+        consonantString(string);
+        break;
+    case 10:
+        vocalString(string);
+        break;
     default:
         break;
     }
 }
 
-char* uppercaseString(char string[])
+char *uppercaseString(char string[])
 {
     int i;
 
@@ -106,7 +115,7 @@ char* uppercaseString(char string[])
     return (string);
 }
 
-char* reversedString(char string[])
+char *reversedString(char string[])
 {
     int length = 0, reverse = 0, i = 0;
     char temp = 0;
@@ -132,9 +141,9 @@ char* reversedString(char string[])
 void lettbylettString(char string[])
 {
     int i;
-    
+
     printf("Entered string letter by letter is:");
-    
+
     uppercaseString(string);
 
     for (i = 0; string[i] != '\0'; i++)
@@ -159,14 +168,15 @@ void lettbylettReverseString(char string[])
 void ladderString(char string[])
 {
     int length = 0;
-    
+
     uppercaseString(string);
 
     printf("The string in \"stair\" order is: ");
     while (string[length++] != '\0')
         ;
 
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++)
+    {
         for (int j = 0; j < length - i; j++)
         {
             printf("%c", string[j]);
@@ -178,7 +188,7 @@ void ladderString(char string[])
 void ladderReverseString(char string[])
 {
     int length = 0;
-    
+
     uppercaseString(string);
     reversedString(string);
 
@@ -186,7 +196,8 @@ void ladderReverseString(char string[])
     while (string[length++] != '\0')
         ;
 
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++)
+    {
         for (int j = 0; j < length - i; j++)
         {
             printf("%c", string[j]);
@@ -205,7 +216,8 @@ void ladderString_2(char string[])
         ;
     printf("The string in \"stair\" order is: ");
     puts(string);
-    while (length > 1) {
+    while (length > 1)
+    {
         for (int i = 0; i < length - 1; i++)
         {
             string[i] = string[i + 1];
@@ -227,12 +239,46 @@ void ladderReverseString_2(char string[])
         ;
     printf("The reverse string in \"stair\" order is: ");
     puts(string);
-    while (length > 1) {
-        for (int i = 0; i < length - 1; i++) {
+    while (length > 1)
+    {
+        for (int i = 0; i < length - 1; i++)
+        {
             string[i] = string[i + 1];
         }
         length--;
         string[length] = '\0';
         printf("%s\n", string);
+    }
+}
+
+void consonantString(char string[])
+{
+    int i;
+
+    uppercaseString(string);
+    for (i = 0; string[i] != '\0'; i++)
+    {
+        char character = string[i];
+
+        if ((character >= 'A' && character <= 'Z') && (character != 'A' && character != 'E' && character != 'I' && character != 'O' && character != 'U'))
+        {
+            printf("%c", string[i]);
+        }
+    }
+}
+
+void vocalString(char string[])
+{
+    int i;
+
+    uppercaseString(string);
+    for (i = 0; string[i] != '\0'; i++)
+    {
+        char character = string[i];
+
+        if ((character >= 'A' && character <= 'Z') && (character == 'A' || character == 'E' || character == 'I' || character == 'O' || character == 'U'))
+        {
+            printf("%c", string[i]);
+        }
     }
 }

@@ -35,6 +35,7 @@ int lengthString(char *);
 char *reversedString(char *);
 void noSpacesString(char *);
 void alphabeticalString(char *);
+void manyFunctions(char *);
 int isPalindrome(char *);
 
 int main()
@@ -85,6 +86,9 @@ void menu(char string[])
     case 7:
         alphabeticalString(string);
         printf("Alphabetical string with spaces: %s\n", string);
+        break;
+    case 8:
+        manyFunctions(string);
         break;
     case 9:
         if (isPalindrome(string))
@@ -208,8 +212,16 @@ void alphabeticalString(char string[])
 
 void manyFunctions(char string[])
 {
-    char uppercase, lowercase, capital, noSpaces, reversed;
-
+    uppercaseString(string);
+    printf("Entered uppercase string is: %s\n", string);
+    lowercaseString(string);
+    printf("Entered lowercase string is: %s\n", string);
+    capitalString(string);
+    printf("Entered string capitalized is: %s\n", string);
+    noSpacesString(string);
+    printf("String with spaces removed: %s\n", string);
+    reversedString(string);
+    printf("Entered reversed string is: %s\n", string);
 }
 int isPalindrome(char string[])
 {
