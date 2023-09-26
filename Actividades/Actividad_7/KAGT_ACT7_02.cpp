@@ -132,10 +132,7 @@ void lowercaseString(char string[])
 
 void capitalString(char string[])
 {
-    if (string[0] >= 'a' && string[0] <= 'z')
-    {
-        string[0] -= 32;
-    }
+    uppercaseString(string);
 
     for (int i = 1; string[i] != '\0'; i++)
     {
@@ -168,6 +165,8 @@ int lengthString(char string[])
 
 char *reversedString(char string[])
 {
+    uppercaseString(string);
+
     int length = strlen(string);
     int reverse = 0;
     char temp;
@@ -184,6 +183,8 @@ char *reversedString(char string[])
 
 void noSpacesString(char string[])
 {
+    uppercaseString(string);
+
     int i, no_space_count = 0;
 
     for (i = 0; string[i] != '\0'; i++)
@@ -194,20 +195,22 @@ void noSpacesString(char string[])
         }
     }
 
-    string[no_space_count] = '\0'; // Null-terminate the new string
+    string[no_space_count] = '\0';
 }
 
 void alphabeticalString(char string[])
 {
+    uppercaseString(string);
+
     int i, asd = 0;
     for (i = 0; string[i] != '\0'; i++)
     {
-        if ((string[i] >= 'a' && string[i] <= 'z') || string[i] == ' ')
+        if ((string[i] >= 'A' && string[i] <= 'Z') || string[i] == ' ')
         {
             string[asd++] = string[i];
         }
     }
-    string[asd] = '\0'; // Null-terminate the new string
+    string[asd] = '\0';
 }
 
 void manyFunctions(char string[])
@@ -223,6 +226,7 @@ void manyFunctions(char string[])
     reversedString(string);
     printf("Entered reversed string is: %s\n", string);
 }
+
 int isPalindrome(char string[])
 {
     noSpacesString(string);
@@ -234,11 +238,11 @@ int isPalindrome(char string[])
     {
         if (string[left] != string[right])
         {
-            return 0; // Not a palindrome
+            return 0;
         }
         left++;
         right--;
     }
 
-    return 1; // Palindrome
+    return 1;
 }
