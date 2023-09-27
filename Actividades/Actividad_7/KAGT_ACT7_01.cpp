@@ -57,7 +57,7 @@ void menu(char string[])
 
     printf("MENU:\n");
     printf("\t1.- Uppercase String\n\t2.- Reverse String\n\t3.- Uppercase letter by letter\n\t4.- Reverse letter by letter\n\t5.- Ladder string\n");
-    printf("\t6.- Ladder reverse string\n\t7.-Ladder string *\n\t8.- Ladder reverse string *\n\t9.- \n\t10.- \n");
+    printf("\t6.- Ladder reverse string\n\t7.-Ladder string *\n\t8.- Ladder reverse string *\n\t9.- Only consonants\n\t10.- Only vocals\n");
     printf("Select an option: ");
     scanf("%i", &option);
 
