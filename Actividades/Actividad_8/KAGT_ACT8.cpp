@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-int menu();
+int msges(void);
+void menu();
+int validar(char msg[], int ri, int rf);
 void fillVector1(int vector[], int size);
 void fillVector2(int vector[], int size);
 void fillVector3(int vector[], int vector1[], int vector2[], int size);
@@ -15,10 +17,22 @@ void printMatrix(int matrix[][5], int size);
 int main()
 {
     menu();
+
     return 0;
 }
 
-int menu()
+int msges()
+{
+    int option;
+
+    printf("ARRAYS MENU");
+    printf("\n\t1.- Fill Vector 1\n\t2.- Fill Vector 2\n\t3.- Fill Vector 3\n\t4.- Print Vectors\n\t5.- Fill Matrix 4x4\n\t6.- Print Matrix\n\t0.- Close Program\n");
+    printf("Select an option: ");
+    scanf("%i", &option);
+    return option;
+}
+
+void menu()
 {
     int option;
     int vector1[10];
@@ -26,45 +40,44 @@ int menu()
     int vector3[20];
     int matrix[5][5];
 
-    printf("ARRAYS MENU");
-    printf("\n\t1.- Fill Vector 1\n\t2.- Fill Vector 2\n\t3.- Fill Vector 3*\n\t4.- Print Vectors*\n\t5.- Fill Matrix 4x4\n\t6.- Print Matrix\n\t0.- Close Program\n");
-    printf("Select an option: ");
-    scanf("%i", &option);
-
-    switch (option)
+    do
     {
-    case 1:
-        fillVector1(vector1, 10);
-        break;
-    case 2:
-        fillVector2(vector2, 10);
-        break;
-    case 3:
-        fillVector3(vector3, vector1, vector2, 10);
-        printVector(vector3, 10);
-        break;
-    case 4:
-        printf("\n");
-        printVector(vector1, 10);
-        printf("\n");
-        printVector(vector2, 10);
-        printf("\n");
-        printVector(vector3, 20);
-        break;
-    case 5:
-        fillMatrix(matrix, 4);
-        break;
-    case 6:
-        printMatrix(matrix, 4);
-        break;
-    case 0:
-        printf("Thanks for using this program. Come back soon!");
-        return 1;
-        break;
-    default:
-        printf("Invalid option. Select another one.");
-        break;
-    }
+        option = msges();
+        system("CLS");
+        switch (option)
+        {
+        case 1:
+            fillVector1(vector1, 10);
+            break;
+        case 2:
+            fillVector2(vector2, 10);
+            break;
+        case 3:
+            fillVector3(vector3, vector1, vector2, 10);
+            break;
+        case 4:
+            printf("\n");
+            printVector(vector1, 10);
+            printf("\n");
+            printVector(vector2, 10);
+            printf("\n");
+            printVector(vector3, 20);
+            break;
+        case 5:
+            fillMatrix(matrix, 4);
+            break;
+        case 6:
+            printMatrix(matrix, 4);
+            break;
+        case 0:
+            system("PAUSE");
+            break;
+        default:
+            printf("Invalid option. Select another one.");
+            break;
+        }
+        system("PAUSE");
+    } while (option != 0);
 }
 
 void fillVector1(int vector[], int size)
@@ -82,7 +95,6 @@ void fillVector1(int vector[], int size)
             i--; // repeat last (incorrect) index
         }
     }
-    menu();
 }
 
 void fillVector2(int vector[], int size)
@@ -111,7 +123,6 @@ void fillVector2(int vector[], int size)
             }
         } while (checkRepeated); // repeat until a unique number is generated
     }
-    menu();
 }
 
 void fillVector3(int vector[], int vector1[], int vector2[], int size)
@@ -121,7 +132,6 @@ void fillVector3(int vector[], int vector1[], int vector2[], int size)
         vector[i] = vector1[i];
         vector[i + 10] = vector2[i];
     }
-    menu();
 }
 
 void fillMatrix(int matrix[][5], int size)
@@ -134,7 +144,6 @@ void fillMatrix(int matrix[][5], int size)
             scanf("%i", &matrix[r][c]);
         }
     }
-    menu();
 }
 
 void printVector(int vector[], int size)
