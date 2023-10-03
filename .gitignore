@@ -31,3 +31,6 @@
 *.exe
 *.out
 *.app
+
+# Folders
+*.json
