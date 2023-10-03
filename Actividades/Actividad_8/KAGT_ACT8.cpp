@@ -118,7 +118,6 @@ void fillVector2(int vector[], int size)
                 if (vector[j] == vector[i])
                 {
                     checkRepeated = 1; // set to 1 if the number is repeated
-                    break;
                 }
             }
         } while (checkRepeated); // repeat until a unique number is generated
