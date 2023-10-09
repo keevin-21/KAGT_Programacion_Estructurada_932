@@ -2,14 +2,30 @@
 #include <stdlib.h>
 #include <time.h>
 
-void fillVectorRandom(int vector[], int size);
+int validate(int ri, int rf);
+void fillVectorRandom(int vector[], int size, int ri, int rf);
 void printVector(int vector[], int size);
-void fillMatrixRandom(int matrix[][5], int size);
+void fillMatrixRandom(int matrix[][5], int vector[], int r, int c);
 void printMatrix(int matrix[][5], int size);
 void sortVector(int vector[], int size);
 int linearSearch(int vector[], int size, int searchNumber);
 
-void fillVectorRandom(int vector[], int size)
+int validate(int ri, int rf)
+{
+    char string[50];
+    int num;
+
+    do
+    {
+        fflush(stdin);
+        gets(string);
+        num = atoi(string);
+    } while (num < ri || num > rf);
+
+    return num;
+}
+
+void fillVectorRandom(int vector[], int size, int ri, int rf)
 {
     int checkRepeated;
 
@@ -20,7 +36,7 @@ void fillVectorRandom(int vector[], int size)
         do
         {
             checkRepeated = 0; // initialize to assume the number is not repeated
-            vector[i] = rand() % 101 + 100;
+            vector[i] = rand() % (rf - ri + 1) + ri;
 
             // check if the random number already exists in the vector
             for (int j = 0; j < i; j++)
@@ -40,7 +56,7 @@ void printVector(int vector[], int size)
     for (int i = 0; i < size; i++)
     {
         printf("%d", vector[i]);
-        if (i < size - 1) //separates each number with a comma
+        if (i < size - 1) // separates each number with a comma
         {
             printf(", ");
         }
@@ -48,24 +64,23 @@ void printVector(int vector[], int size)
     printf("}\n");
 }
 
-void fillMatrixRandom(int matrix[][5], int size) 
+void fillMatrixRandom(int matrix[][5], int vector[], int r, int c)
 {
-    int r, c;
-
-    srand(time(NULL));
-    for(r = 0; r < size; r++)
+    int k = 0;
+    fillVectorRandom(vector, 16, 1, 16);
+    for (int i = 0; i < r; i++)
     {
-        for(c = 0; c < size; c++)
+        for (int j = 0; j < c; j++)
         {
-            matrix[r][c] = rand() % 17;
+            matrix[i][j] = vector[k++];
         }
-    }    
+    }
 }
 
-void printMatrix(int matrix[][5], int size) //doesnt avoid repeated numbers
+void printMatrix(int matrix[][5], int size) // doesnt avoid repeated numbers
 {
     int r, c;
-    
+
     printf("Matrix elements: \n{\n");
     for (r = 0; r < size; r++)
     {
@@ -82,7 +97,7 @@ void sortVector(int vector[], int size)
 {
     int temp;
 
-    for (int i = 0; i < size- 1; i++)
+    for (int i = 0; i < size - 1; i++)
     {
         for (int j = i + 1; j < size; j++)
         {
@@ -91,7 +106,7 @@ void sortVector(int vector[], int size)
                 temp = vector[i];
                 vector[i] = vector[j];
                 vector[j] = temp;
-            } 
+            }
         }
     }
 }
@@ -99,7 +114,7 @@ void sortVector(int vector[], int size)
 int linearSearch(int vector[], int size, int searchNumber)
 {
     int i;
-    
+
     for (i = 0; i < size; i++)
     {
         if (vector[i] == searchNumber)
@@ -109,4 +124,3 @@ int linearSearch(int vector[], int size, int searchNumber)
     }
     return -1;
 }
-
