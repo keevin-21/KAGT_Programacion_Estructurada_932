@@ -73,7 +73,7 @@ void menu()
                 {
                     temp.enrolment = randomNumber(300000, 399999);
                 }
-                studentArray[i++];
+                studentArray[i++] = temp;
             }
             break;
 
@@ -170,7 +170,7 @@ Tstudents manualDataReg()
     student.age = validate(17, 30);
     printf("\nGender:\n");
     student.gender = validate(0, 1);
-    system("PAUSE");
+    return student;
 }
 
 Tstudents autoDataReg()
