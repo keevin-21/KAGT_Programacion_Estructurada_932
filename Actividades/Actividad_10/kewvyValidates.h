@@ -5,6 +5,7 @@
 
 int validate(int ri, int rf);
 int randomNumber(int ri, int rf);
+
 /*
 int linearSearch(int vector[], int size, int searchNumber);
 int binarySearch(int array[], int left, int right, int number);
@@ -20,6 +21,7 @@ int validate(int ri, int rf)
         fflush(stdin);
         gets(string);
         num = atoi(string);
+        //printf("Out of range - Please enter a valid number: ");
     } while (num < ri || num > rf);
 
     return num;

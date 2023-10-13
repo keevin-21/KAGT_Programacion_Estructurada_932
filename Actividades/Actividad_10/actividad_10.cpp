@@ -44,6 +44,8 @@ int msges()
     printf("\n\t2.- Fill Manual Register");
     printf("\n\t3.- Remove a Register");
     printf("\n\t4.- Sort Register");
+    printf("\n\t5.- Search Register");
+    printf("\n\t6.- Print Registers");
     printf("\n\t0.- Exit\n\n");
     printf("Select an option: ");
     option = validate(0, 6);
@@ -90,19 +92,43 @@ void menu()
             break;
 
         case 3:
-            printf("Enrolment to be removed:");
-            remove = validate(0, 500);
-            if (studentArray[remove].enrolment == 0)
+            printf("Enrolment to be removed: ");
+            remove = validate(300000, 399999);
+            search = linearSearch(studentArray, i, remove);
+            
+            if (linearSearch(studentArray, i, remove) != -1)
+            {
+                printf("Enrolment found...\n");
+            }
+            else
+            {
+                 printf("Enrolment not found...\n");
+            }
+            
+            if (studentArray[search].status == 0)
             {
                 printf("Enrolment already removed.");
             }
             else
             {
+                studentArray[search].status = 0;
                 printf("Now the enrolment %i has been removed.", remove);
             }
             break;
 
         case 4:
+            if (sorted == 0)
+            {
+                sorted = sortVector(studentArray, i);
+                printf("Register is now sorted.");
+            }
+            else
+            {
+                printf("Register already sorted.");
+            }
+            break;
+
+        case 5:
             printf("Search enrolment: ");
             search = validate(300000, 399999);
 
@@ -122,18 +148,6 @@ void menu()
             else
             {
                 printf("Enrolment not found.");
-            }
-            break;
-
-        case 5:
-            if (sorted == 0)
-            {
-                sorted = sortVector(studentArray, i);
-                printf("Register is now sorted.");
-            }
-            else
-            {
-                printf("Register already sorted.");
             }
             break;
 
@@ -195,7 +209,7 @@ Tstudents autoDataReg()
     }
 
     student.age = randomNumber(17, 30);
-    
+
     return student;
 }
 
@@ -259,7 +273,7 @@ void printRegister(Tstudents array[], int size)
 {
     int i;
 
-    printf("STATUS  ENROLMENT   NAME                           FATHER LN                            MOTHER LN                            AGE   GENDER  \n\n");
+    printf("STATUS  ENROLMENT   NAME                           FATHER LN                            MOTHER LN                            AGE   GENDER  \n\n"); // Esta bn culero
     for (i = 0; i < size; i++)
     {
         if (array[i].status == 1)
