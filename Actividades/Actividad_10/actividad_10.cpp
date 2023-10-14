@@ -179,7 +179,7 @@ Tstudents autoDataReg()
 {
     Tstudents student;
     student.status = randomNumber(0, 1);
-
+    
     student.enrolment = randomNumber(300000, 399999);
 
     strcpy(student.fatherLastname, lastnames[randomNumber(0, 19)]);
