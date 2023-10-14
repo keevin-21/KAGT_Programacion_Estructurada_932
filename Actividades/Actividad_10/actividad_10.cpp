@@ -175,6 +175,32 @@ void menu()
     } while (option != 0);
 }
 
+Tstudents autoDataReg()
+{
+    Tstudents student;
+    student.status = randomNumber(0, 1);
+
+    student.enrolment = randomNumber(300000, 399999);
+
+    strcpy(student.fatherLastname, lastnames[randomNumber(0, 19)]);
+    strcpy(student.motherLastname, lastnames[randomNumber(0, 19)]);
+
+    if (randomNumber(0, 1) == 1)
+    {
+        strcpy(student.name, maleNames[randomNumber(0, 19)]);
+        student.gender = 1;
+    }
+    else
+    {
+        strcpy(student.name, femaleNames[randomNumber(0, 19)]);
+        student.gender = 0;
+    }
+
+    student.age = randomNumber(17, 30);
+
+    return student;
+}
+
 Tstudents manualDataReg()
 {
     Tstudents student;
@@ -209,32 +235,6 @@ Tstudents manualDataReg()
     student.age = validate(17, 30);
     printf("\nGender:\n");
     student.gender = validate(0, 1);
-    return student;
-}
-
-Tstudents autoDataReg()
-{
-    Tstudents student;
-    student.status = randomNumber(0, 1);
-
-    student.enrolment = randomNumber(300000, 399999);
-
-    strcpy(student.fatherLastname, lastnames[randomNumber(0, 19)]);
-    strcpy(student.motherLastname, lastnames[randomNumber(0, 19)]);
-
-    if (randomNumber(0, 1) == 1)
-    {
-        strcpy(student.name, maleNames[randomNumber(0, 19)]);
-        student.gender = 1;
-    }
-    else
-    {
-        strcpy(student.name, femaleNames[randomNumber(0, 19)]);
-        student.gender = 0;
-    }
-
-    student.age = randomNumber(17, 30);
-
     return student;
 }
 
