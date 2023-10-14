@@ -3,6 +3,7 @@
 */
 
 #include "kewvyValidates.h"
+#include "fullnames.h"
 
 typedef struct _students
 {
@@ -15,12 +16,8 @@ typedef struct _students
     int gender;
 } Tstudents;
 
-char femaleNames[][20] = {"María", "Ana", "Laura", "Isabel", "Carolina", "Gabriela", "Elena", "Patricia", "Valentina", "Camila", "Sofía", "Adriana", "Raquel", "Julia", "Clara", "Beatriz", "Lucía", "Lorena", "Natalia", "Aurora"};
-char maleNames[][20] = {"Alejandro", "Javier", "Andrés", "Luis", "Daniel", "Martín", "Sergio", "Diego", "Eduardo", "Francisco", "Carlos", "Juan", "Rafael", "Marco", "Héctor", "Guillermo", "José", "Antonio", "Pedro", "Miguel"};
-char lastnames[][20] = {"Pérez", "González", "Rodríguez", "López", "Martínez", "Sánchez", "Ramírez", "Torres", "Fernández", "García", "Díaz", "Cruz", "Romero", "Hernández", "Álvarez", "Moreno", "Vargas", "Suárez", "Jiménez", "Mendoza"};
-
 int msges();
-void menu();
+void menu(); 
 Tstudents autoDataReg();
 Tstudents manualDataReg();
 int linearSearch(Tstudents array[], int size, int searchNumber);
@@ -67,8 +64,13 @@ void menu()
 
         case 1:
             sorted = 0; // Verify if it is sorted or not
-
-            for (int j = 0; j < 10; j++)
+            if (i >= 500)
+            {
+                printf("Maximum of registers reached - You can't fill more.");
+            }
+            else
+            {
+            for (int j = 0; j < 1000; j++)
             {
                 temp = autoDataReg();
                 while (linearSearch(studentArray, i, temp.enrolment) != -1)
@@ -77,10 +79,17 @@ void menu()
                 }
                 studentArray[i++] = temp;
             }
+            }
             break;
-
+            
         case 2:
             sorted = 0;
+            if (i >= 500)
+            {
+                printf("Maximum of registers reached - You can't fill more.");
+            }
+            else
+            {
             temp = manualDataReg();
 
             while (linearSearch(studentArray, i, temp.enrolment) != -1)
@@ -89,6 +98,7 @@ void menu()
                 temp.enrolment = validate(300000, 399999);
             }
             studentArray[i++] = temp;
+            }
             break;
 
         case 3:
@@ -176,10 +186,25 @@ Tstudents manualDataReg()
     student.enrolment = validate(300000, 399999);
     printf("\nFather Lastname:\n");
     gets(student.fatherLastname);
+    do
+    {
+        printf("Type Error - Please re-enter your answer.");
+        gets(student.fatherLastname);
+    } while (validateString(student.fatherLastname) == false);
     printf("\nMother Lastname:\n");
     gets(student.motherLastname);
+    do
+    {
+        printf("Type Error - Please re-enter your answer.");
+        gets(student.motherLastname);
+    } while (validateString(student.motherLastname) == false);
     printf("\nName:\n");
     gets(student.name);
+    do
+    {
+        printf("Type Error - Please re-enter your answer.");
+        gets(student.name);
+    } while (validateString(student.name) == false);
     printf("\nAge:\n");
     student.age = validate(17, 30);
     printf("\nGender:\n");

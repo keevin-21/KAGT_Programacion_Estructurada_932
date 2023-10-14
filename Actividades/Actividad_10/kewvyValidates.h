@@ -5,11 +5,7 @@
 
 int validate(int ri, int rf);
 int randomNumber(int ri, int rf);
-
-/*
-int linearSearch(int vector[], int size, int searchNumber);
-int binarySearch(int array[], int left, int right, int number);
-*/
+bool validateString(char string[]);
 
 int validate(int ri, int rf)
 {
@@ -21,14 +17,17 @@ int validate(int ri, int rf)
         fflush(stdin);
         gets(string);
         num = atoi(string);
-        //printf("Out of range - Please enter a valid number: ");
+        if (num < ri || num > rf)
+        {
+            printf("Out of range - Please enter a valid number: ");
+        }
     } while (num < ri || num > rf);
 
     return num;
 }
 
 int randomNumber(int ri, int rf)
-{   
+{
     // Enter final range and initial range
     int range = (rf - ri + 1);
 
@@ -36,41 +35,42 @@ int randomNumber(int ri, int rf)
     return rand() % range + ri;
 }
 
-/*
-int binarySearch(int array[], int left, int right, int number)
+bool validateString(char string[])
 {
-    while (left <= right) {
-        int medium = left + (right - left) / 2;
- 
-        // Check if number is present at mid
-        if (array[medium] == number)
-            return medium;
- 
-        // If number greater, ignore left half
-        if (array[medium] < number)
-            left = medium + 1;
- 
-        // If number is smaller, ignore right half
-        else
-            right = medium - 1;
-    }
- 
-    // If we reach here, then element was not present
-    return -1;
-}
-
-
-int linearSearch(int vector[], int size, int searchNumber)
-{
-    int i;
-
-    for (i = 0; i < size; i++)
+    // Validate if the string starts with a space
+    if (string[0] == ' ')
     {
-        if (vector[i] == searchNumber)
+        return false;
+    }
+
+    // Validate if the string contains double spaces
+    for (int i = 0; string[i] != '\0'; i++)
+    {
+        if (string[i] == ' ' && string[i + 1] == ' ')
         {
-            return i;
+            return false;
         }
     }
-    return -1;
+
+    // Validate if the string contains numbers
+    for (int i = 0; string[i] != '\0'; i++)
+    {
+        if (string[i] >= '0' && string[i] <= '9')
+        {
+            return false;
+        }
+    }
+
+    // Validate if the string contains accents
+    for (int i = 0; string[i] != '\0'; i++)
+    {
+        char c = string[i];
+        if ((c >= 128 && c <= 165) || (c >= 192 && c <= 255))
+        {
+            return false;
+        }
+    }
+
+    // If no issues are found, the string is valid
+    return true;
 }
-*/
