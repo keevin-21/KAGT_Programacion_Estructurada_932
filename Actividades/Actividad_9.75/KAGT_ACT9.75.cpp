@@ -125,7 +125,7 @@ void omitirNombres(char nombre[], const char partes[][6])
     }
 }
 
-void omitirPartes(char apellido[], char partes[][4])
+void omitirPartes(char apellido[], char partes[][6])
 {
     for (int i = 0; partes[i][0] != '\0'; i++)
     {

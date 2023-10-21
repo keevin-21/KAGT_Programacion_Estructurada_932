@@ -12,5 +12,5 @@ char antisonantes[][5] = {"BACA", "BAKA", "BUEI", "BUEY", "CACA", "CACO", "CAGA"
 char nombresCortos[][6] = {"MARIA", "MA.", "MA", "M.",
                            "M", "JOSE", "J.", "J"};
 
-char partes[][4] = {"DA", "DAS", "DE", "DEL", "DER", "DI", "DIE", "DD", "Y", "EL",
-                    "LA", "LOS", "LAS", "LE", "LES", "MAC", "MC", "VAN", "VON"};
+char partes[][6] = {"DA ", "DAS ", "DE ", "DEL ", "DER ", "DI ", "DIE ", "DD ", "Y ", "EL ",
+                    "LA ", "LOS ", "LAS ", "LE ", "LES ", "MAC ", "MC ", "VAN ", "VON "};
