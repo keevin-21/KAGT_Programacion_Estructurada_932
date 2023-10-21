@@ -1,12 +1,20 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include <ctype.h>
 
-// Función para reemplazar caracteres especiales por 'X'
-void sanitizeString(char string[]) {
+void replaceAccentedChars(char string[]) {
     for (int i = 0; string[i] != '\0'; i++) {
-        if (!isalpha(string[i])) {
-            string[i] = 'X';
+        if (string[i] == 'Á') {
+            string[i] = 'A';
+        } else if (string[i] == 'É') {
+            string[i] = 'E';
+        } else if (string[i] == 'Í') {
+            string[i] = 'I';
+        } else if (string[i] == 'Ó') {
+            string[i] = 'O';
+        } else if (string[i] == 'Ú') {
+            string[i] = 'U';
         }
     }
 }
@@ -14,22 +22,35 @@ void sanitizeString(char string[]) {
 bool validateString(char string[], int max_length) {
     int invalid = 0;
     int i;
+    int string_length = 0;
 
     do {
         invalid = 0;
-        fflush(stdin);
-        gets(string);
+        printf("Enter a string: ");
+        fgets(string, max_length, stdin);
 
-        for (i = 0; string[i] != '\0'; i++) {
-            string[i] = toupper(string[i]);
+        // Remove trailing newline character, if present
+        string_length = strlen(string);
+        if (string_length > 0 && string[string_length - 1] == '\n') {
+            string[string_length - 1] = '\0';
         }
+
+        replaceAccentedChars(string);
 
         if (string[0] == ' ') {
             invalid = 1;
         }
 
-        // Llama a la función para reemplazar caracteres especiales
-        sanitizeString(string);
+        for (i = 0; string[i] != '\0'; i++) {
+            if (string[i] == ' ' && string[i + 1] == ' ') {
+                invalid = 1;
+                printf("The text cannot contain double spaces\n");
+            }
+
+            if (!isalpha(string[i])) {
+                string[i] = 'X'; // Replace non-alphabetic characters with 'X'
+            }
+        }
 
         if (i > max_length) {
             printf("The entered text has more than [%d] characters.\n", max_length);
@@ -46,12 +67,11 @@ bool validateString(char string[], int max_length) {
 }
 
 int main() {
-    char input[100]; // Puedes ajustar el tamaño según tus necesidades
+    char inputString[256]; // Adjust the size as needed
+    int maxLength = 255;  // Adjust the maximum length as needed
 
-    printf("Enter a valid string (only letters, uppercase or lowercase, and special characters will be replaced by 'X'):\n");
-    
-    if (validateString(input, 99)) {
-        printf("Valid input: %s\n", input);
+    if (validateString(inputString, maxLength)) {
+        printf("Valid input: %s\n", inputString);
     }
 
     return 0;

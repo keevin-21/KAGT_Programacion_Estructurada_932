@@ -35,13 +35,41 @@ int randomNumber(int ri, int rf)
     return rand() % range + ri;
 }
 
-void sanitizeString(char string[])
+void validateAlpha(char string[])
 {
     for (int i = 0; string[i] != '\0'; i++)
     {
-        if (!isalpha(string[i]))
+        if (string[i] == 'Á')
         {
-            string[i] = 'X';
+            string[i] = 'A';
+        }
+        else
+        {
+            if (string[i] == 'É')
+            {
+                string[i] = 'E';
+            }
+            else
+            {
+                if (string[i] == 'Í')
+                {
+                    string[i] = 'I';
+                }
+                else
+                {
+                    if (string[i] == 'Ó')
+                    {
+                        string[i] = 'O';
+                    }
+                    else
+                    {
+                        if (string[i] == 'Ú')
+                        {
+                            string[i] = 'U';
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -56,19 +84,26 @@ bool validateString(char string[], int max_length)
         invalid = 0;
         fflush(stdin);
         gets(string);
-
-        for (i = 0; string[i] != '\0'; i++)
-        {
-            string[i] = toupper(string[i]);
-        }
-
+        uppercaseString(string);
+        validateAlpha(string);
         if (string[0] == ' ')
         {
             invalid = 1;
         }
 
-        // Llama a la función para reemplazar caracteres especiales
-        sanitizeString(string);
+        for (i = 0; string[i] != '\0'; i++)
+        {
+            if (string[i] == ' ' && string[i + 1] == ' ')
+            {
+                invalid = 1;
+                printf("The text cannot contain double spaces\n");
+            }
+
+            if (!isalpha(string[i]))
+            {
+                string[i] = 'X';
+            }
+        }
 
         if (i > max_length)
         {
