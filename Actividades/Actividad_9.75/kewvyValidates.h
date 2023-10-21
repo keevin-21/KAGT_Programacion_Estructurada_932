@@ -84,8 +84,9 @@ bool validateString(char string[], int max_length)
         invalid = 0;
         fflush(stdin);
         gets(string);
-        uppercaseString(string);
         validateAlpha(string);
+        uppercaseString(string);
+
         if (string[0] == ' ')
         {
             invalid = 1;

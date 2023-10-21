@@ -67,7 +67,7 @@ bool validateString(char string[], int max_length) {
 }
 
 int main() {
-    char inputString[256]; // Adjust the size as needed
+    char inputString[256] = "ÁÁÁÁÉÉÉÉÉÍÍÍÍÍ"; // Adjust the size as needed
     int maxLength = 255;  // Adjust the maximum length as needed
 
     if (validateString(inputString, maxLength)) {
