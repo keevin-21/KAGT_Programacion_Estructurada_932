@@ -17,7 +17,7 @@ typedef struct _students
 } Tstudents;
 
 int msges();
-void menu(); 
+void menu();
 Tstudents autoDataReg();
 Tstudents manualDataReg();
 int linearSearch(Tstudents array[], int size, int searchNumber);
@@ -63,15 +63,18 @@ void menu()
         {
 
         case 1:
-            sorted = 0; // Verify if it is sorted or not
-            if (i >= 500)
+            if (i + 1 > 500)
             {
-                printf("Maximum of registers reached - You can't fill more.");
+                printf("Register full\n");
             }
-            else
+            sorted = 0; // Verify if it is sorted or not
+
+            for (int j = 0; j < 10; j++)
             {
-            for (int j = 0; j < 1000; j++)
+                if (j + 1 > 500)
             {
+                printf("Register full\n");
+            }
                 temp = autoDataReg();
                 while (linearSearch(studentArray, i, temp.enrolment) != -1)
                 {
@@ -79,17 +82,18 @@ void menu()
                 }
                 studentArray[i++] = temp;
             }
+
+            if (i + 1 > 500)
+            {
+                printf("Register full\n");
             }
+
             break;
-            
+
         case 2:
+            
             sorted = 0;
-            if (i >= 500)
-            {
-                printf("Maximum of registers reached - You can't fill more.");
-            }
-            else
-            {
+
             temp = manualDataReg();
 
             while (linearSearch(studentArray, i, temp.enrolment) != -1)
@@ -98,23 +102,28 @@ void menu()
                 temp.enrolment = validate(300000, 399999);
             }
             studentArray[i++] = temp;
+
+            if (i + 1 > 500)
+            {
+                printf("Register full\n");
             }
+
             break;
 
         case 3:
             printf("Enrolment to be removed: ");
             remove = validate(300000, 399999);
             search = linearSearch(studentArray, i, remove);
-            
+
             if (linearSearch(studentArray, i, remove) != -1)
             {
                 printf("Enrolment found...\n");
             }
             else
             {
-                 printf("Enrolment not found...\n");
+                printf("Enrolment not found...\n");
             }
-            
+
             if (studentArray[search].status == 0)
             {
                 printf("Enrolment already removed.");
@@ -178,8 +187,8 @@ void menu()
 Tstudents autoDataReg()
 {
     Tstudents student;
-    student.status = randomNumber(0, 1);
-    
+    student.status = 1;
+
     student.enrolment = randomNumber(300000, 399999);
 
     strcpy(student.fatherLastname, lastnames[randomNumber(0, 19)]);
@@ -204,35 +213,24 @@ Tstudents autoDataReg()
 Tstudents manualDataReg()
 {
     Tstudents student;
-    // system("CLS");
 
-    printf("\nStatus:\n");
-    student.status = validate(0, 1);
+    student.status = 1;
+
     printf("\nEnrolment:\n");
     student.enrolment = validate(300000, 399999);
+
     printf("\nFather Lastname:\n");
-    gets(student.fatherLastname);
-    do
-    {
-        printf("Type Error - Please re-enter your answer.");
-        gets(student.fatherLastname);
-    } while (validateString(student.fatherLastname) == false);
+    validateString(student.fatherLastname, 30);
+
     printf("\nMother Lastname:\n");
-    gets(student.motherLastname);
-    do
-    {
-        printf("Type Error - Please re-enter your answer.");
-        gets(student.motherLastname);
-    } while (validateString(student.motherLastname) == false);
+    validateString(student.motherLastname, 30);
+
     printf("\nName:\n");
-    gets(student.name);
-    do
-    {
-        printf("Type Error - Please re-enter your answer.");
-        gets(student.name);
-    } while (validateString(student.name) == false);
+    validateString(student.name, 30);
+
     printf("\nAge:\n");
     student.age = validate(17, 30);
+
     printf("\nGender:\n");
     student.gender = validate(0, 1);
     return student;
@@ -258,20 +256,16 @@ int binarySearch(Tstudents array[], int left, int right, int number)
     {
         int medium = left + (right - left) / 2;
 
-        // Check if number is present at mid
         if (array[medium].enrolment == number)
             return medium;
 
-        // If number greater, ignore left half
         if (array[medium].enrolment < number)
             left = medium + 1;
 
-        // If number is smaller, ignore right half
         else
             right = medium - 1;
     }
 
-    // If we reach here, then element was not present
     return -1;
 }
 
@@ -303,7 +297,8 @@ void printRegister(Tstudents array[], int size)
     {
         if (array[i].status == 1)
         {
-            printf("%-3d   %-9d   %-30s   %-30s   %-30s   %-4d   \n", array[i].status, array[i].enrolment, array[i].name, array[i].fatherLastname, array[i].motherLastname, array[i].age, array[i].gender);
+            printf("%-3d   %-9d   %-30s   %-30s   %-30s   %-4d   %-3d\n",
+            array[i].status, array[i].enrolment, array[i].name, array[i].fatherLastname, array[i].motherLastname, array[i].age, array[i].gender);
         }
     }
 }

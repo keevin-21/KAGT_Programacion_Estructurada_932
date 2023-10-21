@@ -1,0 +1,9 @@
+NAME		LASTNAMES		CITY
+Kevin	Gonzalez	Torres	Ensenada
+
+Kevin	Gonzalez	Torres	Guerrero Negro
+
+adsdasd	awdawdawd	awdawdaw	awdawdawd
+
+awdadawd		awdawdaw	awdadawd
+

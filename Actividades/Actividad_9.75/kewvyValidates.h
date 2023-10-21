@@ -90,7 +90,7 @@ bool validateString(char string[], int max_length)
                 }
                 else
                 {
-                    if (string[i] < 65)
+                    if (string[i] < 65 && string[i] != -91 && string[i] != -92)
                     {
                         invalid = 1;
                         printf("The text cannot contain special characters like this one you wrote [%c]\n", string[i]);
@@ -101,7 +101,7 @@ bool validateString(char string[], int max_length)
 
         if (invalid == 1)
         {
-            printf("Please write a different text.\n");
+            printf("Please write a different text: \n");
         }
 
     } while (invalid == 1);
@@ -118,4 +118,19 @@ void uppercaseString(char string[])
             string[i] -= 32;
         }
     }
+}
+
+void noSpacesString(char string[])
+{
+    int i, no_space_count = 0;
+
+    for (i = 0; string[i] != '\0'; i++)
+    {
+        if (string[i] != ' ')
+        {
+            string[no_space_count++] = string[i];
+        }
+    }
+
+    string[no_space_count] = '\0';
 }
