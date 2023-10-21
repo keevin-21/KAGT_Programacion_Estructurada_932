@@ -3,7 +3,11 @@
 #include <ctype.h>
 #include "kewvyValidates.h"
 #include "listas.h"
-
+/*
+OCUPO QUITAR ESPACIO DE LAS CADENAS Y CAMBIAR LA FUNCION PARA PODER
+VALIDAR BIEN LAS CONSONANTES Q PENDEJOAJAJAJA Y PODER PONERR SIMBOLOS
+EN ESPECIFICO IGUAL Y ESO LO HAGO AHORITA SI NIO ME DORRMI
+*/
 char obtenerPrimeraVocal(char *cadena)
 {
     char vocal = 'X';
@@ -19,9 +23,11 @@ char obtenerPrimeraVocal(char *cadena)
     return vocal;
 }
 
-char obtenerSegundaConsonante(const char *cadena)
+char obtenerSegundaConsonante(char *cadena)
 {
     int contadorConsonantes = 0;
+
+    char caracter = 'X';
     while (*cadena)
     {
         char caracter = *cadena;
@@ -119,7 +125,7 @@ void omitirNombres(char nombre[], const char partes[][6])
     }
 }
 
-void omitirPartes(char apellido[], const char partes[][4])
+void omitirPartes(char apellido[], char partes[][4])
 {
     for (int i = 0; partes[i][0] != '\0'; i++)
     {
@@ -175,19 +181,32 @@ int main()
     printf("Nombre: ");
     validateString(nombre, sizeof(nombre));
     omitirNombres(nombre, nombresCortos);
-    omitirEnie(nombre);
+    omitirPartes(nombre, partes);
     system("CLS");
 
-    printf("Apellido Paterno: ");
-    validateString(primer_apellido, sizeof(primer_apellido));
-    omitirPartes(primer_apellido, partes);
-    omitirEnie(primer_apellido);
-    system("CLS");
+    printf("¿Tienes apellido paterno?\n");
+    printf("[1] Si\n[2] No\nOpcion: ");
+    opcionApellido = validate(1, 2);
+    if (opcionApellido == 1)
+    {
+        printf("Apellido Paterno: ");
+        validateString(primer_apellido, sizeof(primer_apellido));
+        omitirPartes(primer_apellido, partes);
+        omitirEnie(primer_apellido);
+        puts(primer_apellido);
+    }
+    // system("CLS");
 
-    printf("Apellido Materno: ");
-    validateString(segundo_apellido, sizeof(segundo_apellido));
-    omitirPartes(segundo_apellido, partes);
-    omitirEnie(segundo_apellido);
+    printf("¿Tienes apellido materno?\n");
+    printf("[1] Si\n[2] No\nOpcion: ");
+    opcionApellido = validate(1, 2);
+    if (opcionApellido == 1)
+    {
+        printf("Apellido Materno: ");
+        validateString(segundo_apellido, sizeof(segundo_apellido));
+        omitirPartes(segundo_apellido, partes);
+        omitirEnie(segundo_apellido);
+    }
     system("CLS");
 
     printf("Ano: ");
@@ -283,9 +302,25 @@ int main()
     }
     system("CLS");
 
-    curp[0] = toupper(primer_apellido[0]);
-    curp[1] = obtenerPrimeraVocal(primer_apellido);
-    curp[2] = toupper(segundo_apellido[0]);
+    if (opcionApellido == 1)
+    {
+        curp[0] = toupper(primer_apellido[0]);
+        curp[1] = obtenerPrimeraVocal(primer_apellido);
+    }
+    else
+    {
+        curp[0] = 'X';
+        curp[1] = 'X';
+    }
+    if (opcionApellido == 1)
+    {
+        curp[2] = toupper(segundo_apellido[0]);
+    }
+    else
+    {
+        curp[2] = 'X';
+    }
+
     curp[3] = toupper(nombre[0]);
     curp[4] = canio[2];
     curp[5] = canio[3];
@@ -313,9 +348,32 @@ int main()
     curp[10] = toupper(genero[0]);
     curp[11] = entidad_nacimiento[0];
     curp[12] = entidad_nacimiento[1];
-    curp[13] = obtenerSegundaConsonante(primer_apellido);
+    if (!obtenerSegundaConsonante(primer_apellido))
+    {
+        curp[13] = 'X';
+    }
+    else
+    {
+        curp[13] = obtenerSegundaConsonante(primer_apellido);
+    }
     curp[14] = obtenerSegundaConsonante(segundo_apellido);
+    if (!obtenerSegundaConsonante(segundo_apellido))
+    {
+        curp[14] = 'X';
+    }
+    else
+    {
+        curp[14] = obtenerSegundaConsonante(segundo_apellido);
+    }
     curp[15] = obtenerSegundaConsonante(nombre);
+    if (!obtenerSegundaConsonante(nombre))
+    {
+        curp[15] = 'X';
+    }
+    else
+    {
+        curp[15] = obtenerSegundaConsonante(nombre);
+    }
     if (anio < 2000)
     {
         curp[16] = canio[2];

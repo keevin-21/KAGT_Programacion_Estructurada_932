@@ -194,7 +194,7 @@ void noSpacesString(char string[])
         }
     }
 
-    string[no_space_count] = '\0'; // Null-terminate the new string
+    string[no_space_count] = '\0';
 }
 
 void alphabeticalString(char string[])
@@ -207,7 +207,7 @@ void alphabeticalString(char string[])
             string[asd++] = string[i];
         }
     }
-    string[asd] = '\0'; // Null-terminate the new string
+    string[asd] = '\0';
 }
 
 void manyFunctions(char string[])
@@ -234,11 +234,11 @@ int isPalindrome(char string[])
     {
         if (string[left] != string[right])
         {
-            return 0; // Not a palindrome
+            return 0;
         }
         left++;
         right--;
     }
 
-    return 1; // Palindrome
+    return 1;
 }

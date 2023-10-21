@@ -38,6 +38,7 @@ int randomNumber(int ri, int rf)
 bool validateString(char string[], int max_length)
 {
     int invalid = 0;
+    int caracter = 0;
     int i;
 
     do
@@ -53,26 +54,66 @@ bool validateString(char string[], int max_length)
         }
 
         for (i = 0; string[i] != '\0'; i++)
+            ;
+        if (i > max_length)
         {
-            if ((string[i] < 'A' || string[i] > 'Z') && string[i] != ' ' && string[i] != 'Ü' && string[i] != ' ')
-            {
-                invalid = 1;
-                printf("The text cannot contain special characters like this one you wrote [%c]\n", string[i]);
-                break;
-            }
+            printf("The entered text has more than [%d] characters.\n", max_length);
+            invalid = 1;
+        }
 
-            if (string[i] == ' ' && string[i + 1] == ' ')
+        for (i = 0; string[i] != '\0'; i++)
+        {
+            if ((unsigned char)string[i] == 154)
             {
-                invalid = 1;
-                printf("The text cannot contain double spaces\n");
-                break;
+                string[i] = 'U';
             }
         }
 
-        if (strlen(string) > max_length)
+        for (i = 0; string[i] != '\0'; i++)
         {
-            printf("The entered text has more than %d characters.\n", max_length);
-            invalid = 1;
+            if ((unsigned char)string[i] == 47 && (unsigned char)string[i] == 45 && (unsigned char)string[i] == -104 && (unsigned char)string[i] == -88)
+            {
+                string[i] = 'X';
+            }
+        }
+
+        for (i = 0; string[i] != '\0'; i++)
+        {
+            if (string[i] > 90 && (unsigned char)string[i] != 129 && (unsigned char)string[i] != 154)
+            {
+                if (string[i] >= 97 && (unsigned char)string[i] != 129 && (unsigned char)string[i] != 154)
+                {
+                    if (string[i] > 122)
+                    {
+                        invalid = 1;
+                        printf("The text cannot contain special characters like this one you wrote [%c]\n", string[i]);
+                    }
+                }
+                else
+                {
+                    invalid = 1;
+                    printf("The text cannot contain special characters like this one you wrote [%c]\n", string[i]);
+                }
+            }
+            else
+            {
+                if (string[i] == 32)
+                {
+                    if (string[i + 1] == 32)
+                    {
+                        invalid = 1;
+                        printf("The text cannot contain double spaces\n");
+                    }
+                }
+                else
+                {
+                    if (string[i] < 65 && string[i] != -91 && string[i] != -92)
+                    {
+                        invalid = 1;
+                        printf("The text cannot contain special characters like this one you wrote [%c]\n", string[i]);
+                    }
+                }
+            }
         }
 
         if (invalid == 1)
