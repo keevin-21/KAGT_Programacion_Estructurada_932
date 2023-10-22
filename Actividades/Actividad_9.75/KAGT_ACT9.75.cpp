@@ -1,14 +1,6 @@
 #include "kewvyValidates.h"
 #include "listas.h"
 
-/*
-OCUPO QUITAR ESPACIO DE LAS CADENAS Y CAMBIAR LA FUNCION PARA PODER
-VALIDAR BIEN LAS CONSONANTES Q PENDEJOAJAJAJA Y PODER PONERR SIMBOLOS
-EN ESPECIFICO IGUAL Y ESO LO HAGO AHORITA SI NIO ME DORRMI
-*/
-
-/*YA LO ISE EJEJEJ ^^^^*/
-
 char obtenerPrimeraVocal(char *cadena)
 {
     char vocal;
@@ -332,7 +324,7 @@ int main()
     curp[10] = toupper(genero[0]);
     curp[11] = entidad_nacimiento[0];
     curp[12] = entidad_nacimiento[1];
-    if (!obtenerSegundaConsonante(primer_apellido))
+    if (!obtenerSegundaConsonante(primer_apellido) || opcionApellido1 == 2)
     {
         curp[13] = 'X';
     }
@@ -340,7 +332,7 @@ int main()
     {
         curp[13] = obtenerSegundaConsonante(primer_apellido);
     }
-    if (!obtenerSegundaConsonante(segundo_apellido))
+    if (!obtenerSegundaConsonante(segundo_apellido) || opcionApellido2 == 2)
     {
         curp[14] = 'X';
     }
