@@ -100,7 +100,7 @@ bool validateString(char string[], int max_length)
                 printf("The text cannot contain double spaces\n");
             }
 
-            if (!isalpha(string[i]))
+            if (!isalpha(string[i]) && string[i] != ' ')
             {
                 string[i] = 'X';
             }

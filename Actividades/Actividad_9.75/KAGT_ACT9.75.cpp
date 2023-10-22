@@ -25,25 +25,21 @@ char obtenerPrimeraVocal(char *cadena)
 
 char obtenerSegundaConsonante(char *cadena)
 {
-    int contadorConsonantes = 0;
+    char primeraLetra = cadena[0];
 
-    char caracter = 'X';
+    cadena++;
+
     while (*cadena)
     {
         char caracter = *cadena;
-        if (isalpha(caracter) && !strchr("AEIOU", caracter))
+        if (isalpha(caracter) && !strchr("AEIOUaeiou", caracter))
         {
-            contadorConsonantes++;
-            if (contadorConsonantes == 2)
-            {
-                return caracter;
-            }
+            return caracter;
         }
         cadena++;
     }
     return '\0';
 }
-
 int esBisiesto(int anio)
 {
     if ((anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0))
@@ -146,14 +142,6 @@ void omitirPartes(char apellido[], char partes[][6])
     }
 }
 
-void omitirEnie(char cadena[])
-{
-    if (cadena[0] == -91 || cadena[0] == -92)
-    {
-        cadena[0] = 'X';
-    }
-}
-
 int main()
 {
     srand(time(NULL));
@@ -192,7 +180,6 @@ int main()
         printf("Apellido Paterno: ");
         validateString(primer_apellido, sizeof(primer_apellido));
         omitirPartes(primer_apellido, partes);
-        omitirEnie(primer_apellido);
         puts(primer_apellido);
     }
     // system("CLS");
@@ -205,7 +192,6 @@ int main()
         printf("Apellido Materno: ");
         validateString(segundo_apellido, sizeof(segundo_apellido));
         omitirPartes(segundo_apellido, partes);
-        omitirEnie(segundo_apellido);
     }
     system("CLS");
 
