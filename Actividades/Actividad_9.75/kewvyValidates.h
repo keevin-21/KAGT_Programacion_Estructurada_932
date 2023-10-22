@@ -148,3 +148,43 @@ void noSpacesString(char string[])
 
     string[no_space_count] = '\0';
 }
+
+/*
+void omitirNombres(char nombre[], const char partes[][7])
+{
+    for (int i = 0; partes[i][0] != '\0'; i++)
+    {
+        int nombreIndex = 0;
+        int encontradoIndex;
+
+        while (nombre[nombreIndex] != '\0')
+        {
+            encontradoIndex = 0;
+            int longitudParte = strlen(partes[i]);
+            int coincide = 1;
+
+            while (partes[i][encontradoIndex] != '\0')
+            {
+                if (nombre[nombreIndex + encontradoIndex] != partes[i][encontradoIndex])
+                {
+                    coincide = 0;
+                    break;
+                }
+                encontradoIndex++;
+            }
+
+            if (coincide)
+            {
+                for (int j = nombreIndex; j <= nombreIndex + strlen(nombre) - longitudParte; j++)
+                {
+                    nombre[j] = nombre[j + longitudParte];
+                }
+            }
+            else
+            {
+                nombreIndex++;
+            }
+        }
+    }
+}
+*/

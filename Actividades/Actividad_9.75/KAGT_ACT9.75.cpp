@@ -58,7 +58,7 @@ int esBisiesto(int anio)
     }
 }
 
-int validarEntidad(char *cadena, char entidades[][3], int numEntidades)
+int validarEntidad(char cadena[], char entidades[][3], int numEntidades)
 {
     for (int i = 0; i < numEntidades; i++)
     {
@@ -92,8 +92,7 @@ void obtenerSegundoNombre(char *nombre)
 {
     char *segundoNombre = NULL;
 
-    // Encuentra el segundo nombre separando la cadena por espacios
-    strtok(nombre, " "); // Ignora el primer nombre
+    strtok(nombre, " ");
     segundoNombre = strtok(NULL, " ");
 
     if (segundoNombre != NULL && segundoNombre[0] != '\0')
