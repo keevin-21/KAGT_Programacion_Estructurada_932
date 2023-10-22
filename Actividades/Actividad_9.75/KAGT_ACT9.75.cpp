@@ -32,7 +32,7 @@ char obtenerPrimeraVocal(char *cadena)
 char obtenerSegundaConsonante(char cadena[])
 {
     char primeraLetra = cadena[0];
-    int i = 1; // Empezamos en la segunda posición de la cadena
+    int i = 1;
 
     while (cadena[i] != '\0')
     {
