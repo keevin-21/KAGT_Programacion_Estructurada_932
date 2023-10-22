@@ -19,7 +19,7 @@ char obtenerPrimeraVocal(char *cadena)
 
     while (*cadena)
     {
-        if (strchr("AEIOUaeiou", *cadena))
+        if (strchr("AEIOU", *cadena))
         {
             vocal = toupper(*cadena);
             break;
@@ -29,20 +29,19 @@ char obtenerPrimeraVocal(char *cadena)
     return vocal;
 }
 
-char obtenerSegundaConsonante(char *cadena)
+char obtenerSegundaConsonante(char cadena[])
 {
     char primeraLetra = cadena[0];
+    int i = 1; // Empezamos en la segunda posición de la cadena
 
-    cadena++;
-
-    while (*cadena)
+    while (cadena[i] != '\0')
     {
-        char caracter = *cadena;
-        if (isalpha(caracter) && !strchr("AEIOU", caracter))
+        char caracter = cadena[i];
+        if (!strchr("AEIOUaeiou", caracter))
         {
             return caracter;
         }
-        cadena++;
+        i++;
     }
     return '\0';
 }
@@ -71,7 +70,7 @@ int validarEntidad(char *cadena, char entidades[][3], int numEntidades)
     return 0;
 }
 
-int validarAntisonante(char *cadena, char antisonantes[][5], int numAntisonantes)
+int validarAntisonante(char cadena[], char antisonantes[][5], int numAntisonantes)
 {
     char subcadena[5];
 
@@ -88,7 +87,7 @@ int validarAntisonante(char *cadena, char antisonantes[][5], int numAntisonantes
 
     return 0;
 }
- 
+
 void obtenerSegundoNombre(char *nombre)
 {
     char *segundoNombre = NULL;
@@ -254,7 +253,7 @@ int main()
     }
     system("CLS");
 
-    printf("Aguascalientes (AG)\n");
+    printf("Aguascalientes (AS)\n");
     printf("Baja California (BC)\n");
     printf("Baja California Sur (BS)\n");
     printf("Campeche (CC)\n");
@@ -305,8 +304,11 @@ int main()
     }
     else
     {
-        curp[0] = 'X';
-        curp[1] = 'X';
+        if (opcionApellido == 2)
+        {
+            curp[0] = 'X';
+            curp[1] = 'X';
+        }
     }
     if (opcionApellido == 1)
     {
@@ -352,7 +354,6 @@ int main()
     {
         curp[13] = obtenerSegundaConsonante(primer_apellido);
     }
-    curp[14] = obtenerSegundaConsonante(segundo_apellido);
     if (!obtenerSegundaConsonante(segundo_apellido))
     {
         curp[14] = 'X';
@@ -361,7 +362,7 @@ int main()
     {
         curp[14] = obtenerSegundaConsonante(segundo_apellido);
     }
-    curp[15] = obtenerSegundaConsonante(nombre);
+
     if (!obtenerSegundaConsonante(nombre))
     {
         curp[15] = 'X';
