@@ -1,78 +1,52 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <string.h>
-#include <ctype.h>
 
-void replaceAccentedChars(char string[]) {
-    for (int i = 0; string[i] != '\0'; i++) {
-        if (string[i] == 'Á') {
-            string[i] = 'A';
-        } else if (string[i] == 'É') {
-            string[i] = 'E';
-        } else if (string[i] == 'Í') {
-            string[i] = 'I';
-        } else if (string[i] == 'Ó') {
-            string[i] = 'O';
-        } else if (string[i] == 'Ú') {
-            string[i] = 'U';
+void omitirNombres(char nombre[], const char partes[][7])
+{
+    for (int i = 0; partes[i][0] != '\0'; i++)
+    {
+        char *encontrado = strstr(nombre, partes[i]);
+        int ocurrencias = 0; // Contador de ocurrencias de la palabra
+
+        while (encontrado != NULL)
+        {
+            int longitudParte = strlen(partes[i]);
+            int longitudRestante = strlen(encontrado + longitudParte);
+
+            for (int j = 0; j < longitudParte; j++)
+            {
+                encontrado[j] = 'X'; // Reemplaza cada carácter de la palabra con 'X'
+            }
+
+            for (int j = longitudParte; j <= longitudRestante; j++)
+            {
+                encontrado[j] = encontrado[j + longitudParte];
+            }
+
+            ocurrencias++;
+            encontrado = strstr(encontrado, partes[i]);
+        }
+
+        if (ocurrencias == 1)
+        {
+            encontrado = strstr(nombre, "X"); // Busca la 'X' generada
+            while (encontrado != NULL)
+            {
+                if (encontrado[0] == 'X')
+                {
+                    encontrado[0] = ' '; // Si encuentra una 'X', la reemplaza con espacio en blanco
+                }
+                encontrado = strstr(encontrado + 1, "X"); // Busca la siguiente 'X'
+            }
         }
     }
-}
-
-bool validateString(char string[], int max_length) {
-    int invalid = 0;
-    int i;
-    int string_length = 0;
-
-    do {
-        invalid = 0;
-        printf("Enter a string: ");
-        fgets(string, max_length, stdin);
-
-        // Remove trailing newline character, if present
-        string_length = strlen(string);
-        if (string_length > 0 && string[string_length - 1] == '\n') {
-            string[string_length - 1] = '\0';
-        }
-
-        replaceAccentedChars(string);
-
-        if (string[0] == ' ') {
-            invalid = 1;
-        }
-
-        for (i = 0; string[i] != '\0'; i++) {
-            if (string[i] == ' ' && string[i + 1] == ' ') {
-                invalid = 1;
-                printf("The text cannot contain double spaces\n");
-            }
-
-            if (!isalpha(string[i])) {
-                string[i] = 'X'; // Replace non-alphabetic characters with 'X'
-            }
-        }
-
-        if (i > max_length) {
-            printf("The entered text has more than [%d] characters.\n", max_length);
-            invalid = 1;
-        }
-
-        if (invalid == 1) {
-            printf("Please write a different text: \n");
-        }
-
-    } while (invalid == 1);
-
-    return true;
 }
 
 int main() {
-    char inputString[256] = "ÁÁÁÁÉÉÉÉÉÍÍÍÍÍ"; // Adjust the size as needed
-    int maxLength = 255;  // Adjust the maximum length as needed
+    char nombre[] = "MAX JUAN M MARIA JOSE MARIA";
+    char nombresCortos[][7] = {"MARIA ", "MAX ", "MA ", "MX ", "M ", "JOSE ", "JX ", "J "};
 
-    if (validateString(inputString, maxLength)) {
-        printf("Valid input: %s\n", inputString);
-    }
-
+    omitirNombres(nombre, nombresCortos);
+    printf("%s\n", nombre); // Imprime "XXX JUAN X X MARIA"
     return 0;
 }

@@ -11,7 +11,7 @@ EN ESPECIFICO IGUAL Y ESO LO HAGO AHORITA SI NIO ME DORRMI
 
 char obtenerPrimeraVocal(char *cadena)
 {
-    char vocal = 'X';
+    char vocal;
 
     char primeraLetra = cadena[0];
 
@@ -22,11 +22,11 @@ char obtenerPrimeraVocal(char *cadena)
         if (strchr("AEIOU", *cadena))
         {
             vocal = toupper(*cadena);
-            break;
+            return vocal;
         }
         cadena++;
     }
-    return vocal;
+    return 'X';
 }
 
 char obtenerSegundaConsonante(char cadena[])
@@ -88,24 +88,7 @@ int validarAntisonante(char cadena[], char antisonantes[][5], int numAntisonante
     return 0;
 }
 
-void obtenerSegundoNombre(char *nombre)
-{
-    char *segundoNombre = NULL;
-
-    strtok(nombre, " ");
-    segundoNombre = strtok(NULL, " ");
-
-    if (segundoNombre != NULL && segundoNombre[0] != '\0')
-    {
-        nombre[0] = segundoNombre[0];
-    }
-    else
-    {
-        nombre[0] = 'X';
-    }
-}
-
-void omitirNombres(char nombre[], const char partes[][7])
+void omitirNombres(char nombre[], char partes[][7])
 {
     for (int i = 0; partes[i][0] != '\0'; i++)
     {
@@ -151,7 +134,8 @@ int main()
 
     char nombre[50];
     char primer_apellido[50];
-    int opcionApellido;
+    int opcionApellido1;
+    int opcionApellido2;
     char segundo_apellido[50];
     int dia;
     char cdia[3];
@@ -179,8 +163,8 @@ int main()
 
     printf("¿Tienes apellido paterno?\n");
     printf("[1] Si\n[2] No\nOpcion: ");
-    opcionApellido = validate(1, 2);
-    if (opcionApellido == 1)
+    opcionApellido1 = validate(1, 2);
+    if (opcionApellido1 == 1)
     {
         printf("Apellido Paterno: ");
         validateString(primer_apellido, sizeof(primer_apellido));
@@ -192,8 +176,8 @@ int main()
 
     printf("¿Tienes apellido materno?\n");
     printf("[1] Si\n[2] No\nOpcion: ");
-    opcionApellido = validate(1, 2);
-    if (opcionApellido == 1)
+    opcionApellido2 = validate(1, 2);
+    if (opcionApellido2 == 1)
     {
         printf("Apellido Materno: ");
         validateString(segundo_apellido, sizeof(segundo_apellido));
@@ -296,26 +280,29 @@ int main()
     }
     system("CLS");
 
-    if (opcionApellido == 1)
+    if (opcionApellido1 == 1)
     {
         curp[0] = toupper(primer_apellido[0]);
         curp[1] = obtenerPrimeraVocal(primer_apellido);
     }
     else
     {
-        if (opcionApellido == 2)
+        if (opcionApellido1 == 2)
         {
             curp[0] = 'X';
             curp[1] = 'X';
         }
     }
-    if (opcionApellido == 1)
+    if (opcionApellido2 == 1)
     {
         curp[2] = toupper(segundo_apellido[0]);
     }
     else
     {
-        curp[2] = 'X';
+        if (opcionApellido2 == 2)
+        {
+            curp[2] = 'X';
+        }
     }
 
     curp[3] = toupper(nombre[0]);

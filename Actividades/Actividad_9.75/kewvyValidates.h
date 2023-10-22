@@ -40,31 +40,31 @@ void validateAlpha(char string[])
 {
     for (int i = 0; string[i] != '\0'; i++)
     {
-        if (string[i] == 'Á')
+        if (string[i] == 'Á' && string[i] == 'Ä')
         {
             string[i] = 'A';
         }
         else
         {
-            if (string[i] == 'É')
+            if (string[i] == 'É' && string[i] == 'Ë')
             {
                 string[i] = 'E';
             }
             else
             {
-                if (string[i] == 'Í')
+                if (string[i] == 'Í' && string[i] == 'Ï')
                 {
                     string[i] = 'I';
                 }
                 else
                 {
-                    if (string[i] == 'Ó')
+                    if (string[i] == 'Ó' && string[i] == 'Ö')
                     {
                         string[i] = 'O';
                     }
                     else
                     {
-                        if (string[i] == 'Ú')
+                        if (string[i] == 'Ú' && string[i] == 'Ü')
                         {
                             string[i] = 'U';
                         }
