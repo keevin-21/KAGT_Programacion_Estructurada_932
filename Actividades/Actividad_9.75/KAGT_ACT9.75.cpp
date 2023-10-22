@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
 #include "kewvyValidates.h"
 #include "listas.h"
 /*
@@ -8,6 +5,8 @@ OCUPO QUITAR ESPACIO DE LAS CADENAS Y CAMBIAR LA FUNCION PARA PODER
 VALIDAR BIEN LAS CONSONANTES Q PENDEJOAJAJAJA Y PODER PONERR SIMBOLOS
 EN ESPECIFICO IGUAL Y ESO LO HAGO AHORITA SI NIO ME DORRMI
 */
+
+/*YA LO ISE EJEJEJ ^^^^*/
 char obtenerPrimeraVocal(char *cadena)
 {
     char vocal = 'X';
@@ -32,7 +31,7 @@ char obtenerSegundaConsonante(char *cadena)
     while (*cadena)
     {
         char caracter = *cadena;
-        if (isalpha(caracter) && !strchr("AEIOUaeiou", caracter))
+        if (isalpha(caracter) && !strchr("AEIOU", caracter))
         {
             return caracter;
         }
@@ -40,6 +39,7 @@ char obtenerSegundaConsonante(char *cadena)
     }
     return '\0';
 }
+
 int esBisiesto(int anio)
 {
     if ((anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0))
@@ -362,7 +362,7 @@ int main()
     }
     if (anio < 2000)
     {
-        curp[16] = canio[2];
+        curp[16] = '0';
     }
     else
     {
