@@ -88,7 +88,7 @@ int validarAntisonante(char *cadena, char antisonantes[][5], int numAntisonantes
 
     return 0;
 }
-
+ 
 void obtenerSegundoNombre(char *nombre)
 {
     char *segundoNombre = NULL;
@@ -123,7 +123,6 @@ void omitirNombres(char nombre[], const char partes[][7])
             }
 
             encontrado = strstr(encontrado, partes[i]);
-            // noSpacesString(nombre);
         }
     }
 }
