@@ -9,8 +9,8 @@ char antisonantes[][5] = {"BACA", "BAKA", "BUEI", "BUEY", "CACA", "CACO", "CAGA"
                           "NACO", "PEDA", "PEDO", "PENE", "PIPI", "PITO", "POPO", "PUTA", "PUTO", "QULO", "RATA", "ROBA", "ROBE", "ROBO",
                           "RUIN", "SENO", "TETA", "VACA", "VAGA", "VAGO", "VAKA", "VUEI", "VUEY", "WUEI", "WUEY"};
 
-char nombresCortos[][6] = {"MARIA", "MA.", "MA", "M.",
-                           "M", "JOSE ", "J.", "J"};
+char nombresCortos[][7] = {"MARIA ", "MAX ", "MA ", "MX ",
+                           "M ", "JOSE ", "JX ", "J "};
 
-char partes[][6] = {"DAS", "DEL", "DE", "DER", "DIE", "LOS", "LAS", "LES", "MAC", "VAN", "VON",
-                    "DA", "DI", "DD", "EL", "LA", "LE", "MC", "Y"};
+char partes[][6] = {"DAS ", "DEL ", "DE ", "DER ", "DIE ", "LOS ", "LAS ", "LES ", "MAC ", "VAN ", "VON ",
+                    "DA ", "DI ", "DD ", "EL ", "LA ", "LE ", "MC ", "Y "};

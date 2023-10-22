@@ -1,5 +1,6 @@
 #include "kewvyValidates.h"
 #include "listas.h"
+
 /*
 OCUPO QUITAR ESPACIO DE LAS CADENAS Y CAMBIAR LA FUNCION PARA PODER
 VALIDAR BIEN LAS CONSONANTES Q PENDEJOAJAJAJA Y PODER PONERR SIMBOLOS
@@ -7,9 +8,15 @@ EN ESPECIFICO IGUAL Y ESO LO HAGO AHORITA SI NIO ME DORRMI
 */
 
 /*YA LO ISE EJEJEJ ^^^^*/
+
 char obtenerPrimeraVocal(char *cadena)
 {
     char vocal = 'X';
+
+    char primeraLetra = cadena[0];
+
+    cadena++;
+
     while (*cadena)
     {
         if (strchr("AEIOUaeiou", *cadena))
@@ -100,7 +107,7 @@ void obtenerSegundoNombre(char *nombre)
     }
 }
 
-void omitirNombres(char nombre[], const char partes[][6])
+void omitirNombres(char nombre[], const char partes[][7])
 {
     for (int i = 0; partes[i][0] != '\0'; i++)
     {
@@ -116,7 +123,7 @@ void omitirNombres(char nombre[], const char partes[][6])
             }
 
             encontrado = strstr(encontrado, partes[i]);
-            noSpacesString(nombre);
+            // noSpacesString(nombre);
         }
     }
 }
@@ -137,7 +144,6 @@ void omitirPartes(char apellido[], char partes[][6])
             }
 
             encontrado = strstr(encontrado, partes[i]);
-            noSpacesString(apellido);
         }
     }
 }
@@ -150,7 +156,6 @@ int main()
     char primer_apellido[50];
     int opcionApellido;
     char segundo_apellido[50];
-    int banderaApellidoMat;
     int dia;
     char cdia[3];
     int mes;
@@ -169,7 +174,10 @@ int main()
     printf("Nombre: ");
     validateString(nombre, sizeof(nombre));
     omitirNombres(nombre, nombresCortos);
+    omitirNombres(nombre, nombresCortos);
     omitirPartes(nombre, partes);
+    omitirPartes(nombre, partes);
+    noSpacesString(nombre);
     system("CLS");
 
     printf("¿Tienes apellido paterno?\n");
@@ -180,9 +188,10 @@ int main()
         printf("Apellido Paterno: ");
         validateString(primer_apellido, sizeof(primer_apellido));
         omitirPartes(primer_apellido, partes);
-        puts(primer_apellido);
+        omitirPartes(primer_apellido, partes);
+        noSpacesString(primer_apellido);
     }
-    // system("CLS");
+    system("CLS");
 
     printf("¿Tienes apellido materno?\n");
     printf("[1] Si\n[2] No\nOpcion: ");
@@ -192,6 +201,8 @@ int main()
         printf("Apellido Materno: ");
         validateString(segundo_apellido, sizeof(segundo_apellido));
         omitirPartes(segundo_apellido, partes);
+        omitirPartes(segundo_apellido, partes);
+        noSpacesString(segundo_apellido);
     }
     system("CLS");
 
