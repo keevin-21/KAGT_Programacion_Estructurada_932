@@ -163,6 +163,7 @@ int main()
         omitirPartes(primer_apellido, partes);
         omitirPartes(primer_apellido, partes);
         noSpacesString(primer_apellido);
+        puts(primer_apellido);
     }
     system("CLS");
 
