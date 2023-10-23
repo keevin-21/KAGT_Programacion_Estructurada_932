@@ -23,13 +23,12 @@ char obtenerPrimeraVocal(char *cadena)
 
 char obtenerSegundaConsonante(char cadena[])
 {
-    char primeraLetra = cadena[0];
     int i = 1;
 
     while (cadena[i] != '\0')
     {
         char caracter = cadena[i];
-        if (!strchr("AEIOUaeiou", caracter))
+        if (strchr("AEIOUaeiou", caracter) == NULL)
         {
             return caracter;
         }
