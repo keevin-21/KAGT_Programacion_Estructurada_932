@@ -66,9 +66,9 @@ char obtenerPrimeraVocal(const char cadena[])
             break;
         }
     }
-
     return vocalEncontrada;
 }
+
 char obtenerSegundaConsonante(char cadena[])
 {
     int i = 1;
