@@ -1,26 +1,74 @@
 #include "kewvyValidates.h"
 #include "listas.h"
 
-char obtenerPrimeraVocal(char *cadena)
+int msges();
+void menu();
+char obtenerPrimeraVocal(const char cadena[]);
+char obtenerSegundaConsonante(char cadena[]);
+int esBisiesto(int anio);
+int validarEntidad(char cadena[], char entidades[][3], int numEntidades);
+int validarAntisonante(char cadena[], char antisonantes[][5], int numAntisonantes);
+void curp();
+
+int main()
 {
-    char vocal;
-
-    char primeraLetra = cadena[0];
-
-    cadena++;
-
-    while (*cadena)
-    {
-        if (strchr("AEIOU", *cadena))
-        {
-            vocal = toupper(*cadena);
-            return vocal;
-        }
-        cadena++;
-    }
-    return 'X';
+    srand(time(NULL));
+    menu();
+    return 0;
 }
 
+int msges()
+{
+    int option;
+
+    printf("CURP MENU");
+    printf("\n\t1.- SACAR CURP");
+    printf("\n\t0.- Exit\n\n");
+    printf("Select an option: ");
+    option = validate(0, 1);
+    return option;
+}
+
+void menu()
+{
+    int option;
+
+    do
+    {
+        option = msges();
+        system("CLS");
+        switch (option)
+        {
+        case 1:
+            printf("Generador de CURP\n\n");
+            curp();
+            break;
+        case 0:
+            return;
+        default:
+            printf("Error - Please select a valid option.");
+            break;
+        }
+        system("PAUSE");
+    } while (option != 0);
+}
+
+char obtenerPrimeraVocal(const char cadena[])
+{
+    char vocalEncontrada = 'X';
+
+    for (int i = 1; cadena[i] != '\0'; i++)
+    {
+        char c = toupper(cadena[i]);
+        if (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')
+        {
+            vocalEncontrada = c;
+            break;
+        }
+    }
+
+    return vocalEncontrada;
+}
 char obtenerSegundaConsonante(char cadena[])
 {
     int i = 1;
@@ -119,9 +167,8 @@ void omitirPartes(char apellido[], char partes[][6])
     }
 }
 
-int main()
+void curp()
 {
-    srand(time(NULL));
 
     char nombre[50];
     char primer_apellido[50];
@@ -140,7 +187,6 @@ int main()
     char cultimoDigito[1];
     char curp[19];
 
-    printf("Generador de CURP\n");
     printf("Ingrese los siguientes datos:\n");
 
     printf("Nombre: ");
@@ -378,6 +424,4 @@ int main()
     }
 
     printf("La CURP generada es: %s\n", curp);
-
-    return 0;
 }
