@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include "curp.h"
 
 int validate(int ri, int rf);
 int randomNumber(int ri, int rf);
@@ -135,4 +136,3 @@ void noSpacesString(char string[])
 
     string[no_space_count] = '\0';
 }
-

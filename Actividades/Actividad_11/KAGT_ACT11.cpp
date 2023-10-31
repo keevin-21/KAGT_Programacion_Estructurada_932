@@ -1,6 +1,5 @@
 #include "kewvyValidates.h"
 #include "fullnames.h"
-#include "curp.h"
 #include "listas.h"
 #define MAX_REGISTERS 2000
 
@@ -32,6 +31,12 @@ typedef struct _students
 
 int msges();
 void menu();
+Tstudents autoDataReg();
+Tstudents manualDataReg();
+int linearSearch(Tstudents array[], int size, int searchNumber);
+int binarySearch(Tstudents array[], int left, int right, int number);
+int sortVector(Tstudents array[], int size);
+void printRegister(Tstudents array[], int size);
 
 int main()
 {
@@ -63,17 +68,17 @@ int msges2()
     int subOption;
 
     printf("SUB-MENU TO ADD REGISTERS");
-    printf("\n\t1.- Manual register (1)");
-    printf("\n\t2.- Automatic register (100)");
-    printf("\n\t3.- Return to main menu");
-
+    printf("\n\t1.- Automatic register (100)");
+    printf("\n\t2.- Manual register (1)");
+    printf("\n\t3.- Return to main menu\n\n");
+    printf("Select an option: ");
     subOption = validate(0, 3);
     return subOption;
 }
 
 void menu()
 {
-    int option, sorted, i, remove, search, found;
+    int option, sorted, i;
     Tstudents studentArray[MAX_REGISTERS], temp;
     i = 0; // Start registers in zero
 
@@ -87,39 +92,45 @@ void menu()
         case 1:
             int subOption;
 
-            subOption = msges2();
-            switch (subOption)
+            do
             {
-            case 1:
-                if (i + 1 > MAX_REGISTERS)
+                subOption = msges2();
+                switch (subOption)
                 {
-                    printf("Register full\n");
-                }
-                sorted = 0; // Verify if it is sorted or not
+                case 1:
+                    sorted = 0; // Verify if it is sorted or not
 
-                for (int j = 0; j < 100; j++)
-                {
-                    if (j + 1 > MAX_REGISTERS)
+                    for (int j = 0; j < 100; j++)
                     {
-                        printf("Register full\n");
+                        if (j + 1 > MAX_REGISTERS)
+                        {
+                            printf("Register full\n");
+                        }
+                        temp = autoDataReg();
+                        while (linearSearch(studentArray, i, temp.enrolment) != -1)
+                        {
+                            temp.enrolment = randomNumber(300000, 399999);
+                        }
+                        studentArray[i++] = temp;
                     }
-                    temp = autoDataReg();
+                    break;
+                case 2:
+                    sorted = 0;
+
+                    temp = manualDataReg();
                     while (linearSearch(studentArray, i, temp.enrolment) != -1)
                     {
-                        temp.enrolment = randomNumber(300000, 399999);
+                        printf("Repeated enrolment - Please enter a different one.");
+                        temp.enrolment = validate(300000, 399999);
                     }
                     studentArray[i++] = temp;
+                    break;
                 }
+            } while (subOption != 3);
+            break;
 
-                if (i + 1 > 500)
-                {
-                    printf("Register full\n");
-                }
-                break;
-
-            default:
-                break;
-            }
+        case 5:
+            printRegister(studentArray, i);
             break;
         case 0:
             return;
@@ -128,13 +139,14 @@ void menu()
             printf("Error - Please select a valid option.");
             break;
         }
+        system("PAUSE");
     } while (option != 0);
 }
 
 Tstudents autoDataReg()
 {
     Tstudents student;
-    int randomIndex = rand() % (sizeof(estados) / sizeof(estados[0]));
+    // int randomIndex = rand() % (sizeof(estados) / sizeof(estados[0]));
 
     student.status = 1;
 
@@ -472,4 +484,62 @@ int linearSearch(Tstudents array[], int size, int searchNumber)
         }
     }
     return -1;
+}
+
+int binarySearch(Tstudents array[], int left, int right, int number)
+{
+    while (left <= right)
+    {
+        int medium = left + (right - left) / 2;
+
+        if (array[medium].enrolment == number)
+            return medium;
+
+        if (array[medium].enrolment < number)
+            left = medium + 1;
+
+        else
+            right = medium - 1;
+    }
+
+    return -1;
+}
+
+int sortVector(Tstudents array[], int size)
+{
+    Tstudents temp;
+
+    for (int i = 0; i < size - 1; i++)
+    {
+        for (int j = i + 1; j < size; j++)
+        {
+            if (array[j].enrolment < array[i].enrolment)
+            {
+                temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+    }
+    return 1;
+}
+
+void printRegister(Tstudents array[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        if (array[i].status == 1)
+        {
+            printf("Enrolment: %i", array[i].enrolment);
+            printf("Name: %s", array[i].fullname.name);
+            printf("Father Lastname: %s", array[i].fullname.fatherLastname);
+            printf("Mother Lastname: %s", array[i].fullname.motherLastname);
+            printf("Birthday: %i-%i-%i", array[i].birthDate.day, array[i].birthDate.month, array[i].birthDate.year);
+            printf("Age: %i", array[i].age);
+            printf("Gender: %i", array[i].gender);
+            printf("Birthplace: %s", array[i].state);
+            printf("CURP: %s", array[i].curp);
+            printf("\n");
+        }
+    }
 }

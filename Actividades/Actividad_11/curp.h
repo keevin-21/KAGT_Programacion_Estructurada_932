@@ -1,5 +1,3 @@
-#include "kewvyValidates.h"
-
 char obtenerPrimeraVocal(const char cadena[])
 {
     char vocalEncontrada = 'X';
