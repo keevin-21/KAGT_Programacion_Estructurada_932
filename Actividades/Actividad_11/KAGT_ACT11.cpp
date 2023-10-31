@@ -91,7 +91,30 @@ void menu()
             switch (subOption)
             {
             case 1:
-                /* code */
+                if (i + 1 > MAX_REGISTERS)
+                {
+                    printf("Register full\n");
+                }
+                sorted = 0; // Verify if it is sorted or not
+
+                for (int j = 0; j < 100; j++)
+                {
+                    if (j + 1 > MAX_REGISTERS)
+                    {
+                        printf("Register full\n");
+                    }
+                    temp = autoDataReg();
+                    while (linearSearch(studentArray, i, temp.enrolment) != -1)
+                    {
+                        temp.enrolment = randomNumber(300000, 399999);
+                    }
+                    studentArray[i++] = temp;
+                }
+
+                if (i + 1 > 500)
+                {
+                    printf("Register full\n");
+                }
                 break;
 
             default:
@@ -111,6 +134,7 @@ void menu()
 Tstudents autoDataReg()
 {
     Tstudents student;
+    int randomIndex = rand() % (sizeof(estados) / sizeof(estados[0]));
 
     student.status = 1;
 
@@ -132,13 +156,13 @@ Tstudents autoDataReg()
 
     student.birthDate.year = randomNumber(1893, 2023);
     student.birthDate.month = randomNumber(1, 12);
-    if (student.birthDate.month == 2 /*&& esBisiesto(student.birthDate.year) == 1*/)
+    if (student.birthDate.month == 2 && esBisiesto(student.birthDate.year) == 1)
     {
         student.birthDate.day = validate(1, 29);
     }
     else
     {
-        if (student.birthDate.month == 2 /*&& esBisiesto(student.birthDate.year) == 0*/)
+        if (student.birthDate.month == 2 && esBisiesto(student.birthDate.year) == 0)
         {
             student.birthDate.day = validate(1, 28);
         }
@@ -162,148 +186,26 @@ Tstudents autoDataReg()
 
     student.gender = randomNumber(0, 1);
 
-    student.curp = curp();
+    strcpy(student.state, estados[randomNumber(0, 32)]);
 
-        return student;
+    return student;
 }
 
-char obtenerPrimeraVocal(const char cadena[])
-{
-    char vocalEncontrada = 'X';
-
-    for (int i = 1; cadena[i] != '\0'; i++)
-    {
-        char c = toupper(cadena[i]);
-        if (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')
-        {
-            vocalEncontrada = c;
-            break;
-        }
-    }
-    return vocalEncontrada;
-}
-
-char obtenerSegundaConsonante(char cadena[])
-{
-    int i = 1;
-
-    while (cadena[i] != '\0')
-    {
-        char caracter = cadena[i];
-        if (strchr("AEIOUaeiou", caracter) == NULL)
-        {
-            return caracter;
-        }
-        i++;
-    }
-    return '\0';
-}
-
-int esBisiesto(int anio)
-{
-    if ((anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0))
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-}
-
-int validarEntidad(char cadena[], char entidades[][3], int numEntidades)
-{
-    for (int i = 0; i < numEntidades; i++)
-    {
-        if (strcmp(cadena, entidades[i]) == 0)
-        {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-int validarAntisonante(char cadena[], char antisonantes[][5], int numAntisonantes)
-{
-    char subcadena[5];
-
-    strncpy(subcadena, cadena, 4);
-    subcadena[4] = '\0';
-
-    for (int i = 0; i < numAntisonantes; i++)
-    {
-        if (strcmp(subcadena, antisonantes[i]) == 0)
-        {
-            return 1;
-        }
-    }
-
-    return 0;
-}
-
-void omitirNombres(char nombre[], char partes[][7])
-{
-    for (int i = 0; partes[i][0] != '\0'; i++)
-    {
-        char *encontrado = strstr(nombre, partes[i]);
-        while (encontrado != NULL)
-        {
-            int longitudParte = strlen(partes[i]);
-            int longitudRestante = strlen(encontrado + longitudParte);
-
-            for (int j = 0; j <= longitudRestante; j++)
-            {
-                encontrado[j] = encontrado[j + longitudParte];
-            }
-
-            encontrado = strstr(encontrado, partes[i]);
-        }
-    }
-}
-
-void omitirPartes(char apellido[], char partes[][6])
-{
-    for (int i = 0; partes[i][0] != '\0'; i++)
-    {
-        char *encontrado = strstr(apellido, partes[i]);
-        while (encontrado != NULL)
-        {
-            int longitudParte = strlen(partes[i]);
-            int longitudRestante = strlen(encontrado + longitudParte);
-
-            for (int j = 0; j <= longitudRestante; j++)
-            {
-                encontrado[j] = encontrado[j + longitudParte];
-            }
-
-            encontrado = strstr(encontrado, partes[i]);
-        }
-    }
-}
-
-Tstudents curp()
+Tstudents manualDataReg()
 {
     Tstudents student;
-    char nombre[50];
-    char primer_apellido[50];
     int opcionApellido1;
     int opcionApellido2;
-    char segundo_apellido[50];
-    int dia;
-    char cdia[3];
-    int mes;
-    char cmes[3];
-    int anio;
-    char canio[6];
-    char genero[2];
-    char entidad_nacimiento[3];
-    int ultimoDigito;
-    char cultimoDigito[1];
 
     printf("Ingrese los siguientes datos:\n");
 
-    printf("Nombre: ");
-    validateString(student.fullname.name, sizeof(nombre));
+    student.enrolment = 1;
+
+    printf("\nEnrolment:\n");
+    student.enrolment = validate(300000, 399999);
+
+    printf("Name: ");
+    validateString(student.fullname.name, sizeof(student.fullname.name));
     omitirNombres(student.fullname.name, nombresCortos);
     omitirNombres(student.fullname.name, nombresCortos);
     omitirPartes(student.fullname.name, partes);
@@ -338,17 +240,15 @@ Tstudents curp()
     }
     system("CLS");
 
-    printf("Ano: ");
-    anio = validate(1910, 2023);
-    sprintf(canio, "%d", student.birthDate.year);
+    printf("Year: ");
+    student.birthDate.year = validate(1910, 2023);
     system("CLS");
 
-    printf("Mes: ");
-    mes = validate(1, 12);
-    sprintf(cmes, "%d", student.birthDate.month);
+    printf("Month: ");
+    student.birthDate.month = validate(1, 12);
     system("CLS");
 
-    printf("Dia: ");
+    printf("Day: ");
     if (student.birthDate.month == 2 && esBisiesto(student.birthDate.year) == 1)
     {
         student.birthDate.day = validate(1, 29);
@@ -374,7 +274,6 @@ Tstudents curp()
             }
         }
     }
-    sprintf(cdia, "%d", student.birthDate.day);
     system("CLS");
 
     printf("Género\n[0] Mujer\n[1] Hombre: ");
@@ -425,118 +324,152 @@ Tstudents curp()
     }
     system("CLS");
 
+    return student;
+}
+
+Tstudents curp(Tstudents student)
+{
+    Tstudents reg;
+    reg = student;
+
+    int opcionApellido1;
+    int opcionApellido2;
+    char cdia[3];
+    char cmes[3];
+    char canio[6];
+    int ultimoDigito;
+    char cultimoDigito[1];
+
+    sprintf(cdia, "%d", student.birthDate.day);
+    sprintf(cmes, "%d", student.birthDate.month);
+    sprintf(canio, "%d", student.birthDate.year);
+
     if (opcionApellido1 == 1)
     {
-        student.curp[0] = toupper(student.fullname.fatherLastname[0]);
-        student.curp[1] = obtenerPrimeraVocal(student.fullname.fatherLastname);
+        reg.curp[0] = toupper(student.fullname.fatherLastname[0]);
+        reg.curp[1] = obtenerPrimeraVocal(student.fullname.fatherLastname);
     }
     else
     {
         if (opcionApellido1 == 2)
         {
-            student.curp[0] = 'X';
-            student.curp[1] = 'X';
+            reg.curp[0] = 'X';
+            reg.curp[1] = 'X';
         }
     }
     if (opcionApellido2 == 1)
     {
-        student.curp[2] = toupper(student.fullname.motherLastname[0]);
+        reg.curp[2] = toupper(student.fullname.motherLastname[0]);
     }
     else
     {
         if (opcionApellido2 == 2)
         {
-            student.curp[2] = 'X';
+            reg.curp[2] = 'X';
         }
     }
 
-    student.curp[3] = toupper(student.fullname.motherLastname[0]);
-    student.curp[4] = canio[2];
-    student.curp[5] = canio[3];
+    reg.curp[3] = toupper(student.fullname.motherLastname[0]);
+    reg.curp[4] = canio[2];
+    reg.curp[5] = canio[3];
     if (student.birthDate.month < 10)
     {
-        student.curp[6] = '0';
-        student.curp[7] = cmes[0];
+        reg.curp[6] = '0';
+        reg.curp[7] = cmes[0];
     }
     else
     {
-        student.curp[6] = cmes[0];
-        student.curp[7] = cmes[1];
+        reg.curp[6] = cmes[0];
+        reg.curp[7] = cmes[1];
     }
     if (student.birthDate.day < 10)
     {
-        student.curp[8] = '0';
-        student.curp[9] = cdia[0];
+        reg.curp[8] = '0';
+        reg.curp[9] = cdia[0];
     }
     else
     {
-        student.curp[8] = cdia[0];
-        student.curp[9] = cdia[1];
+        reg.curp[8] = cdia[0];
+        reg.curp[9] = cdia[1];
     }
 
     if (student.gender == 1)
     {
-        student.curp[10] = 'H';
+        reg.curp[10] = 'H';
     }
     else
     {
-        student.curp[10] = 'M';
+        reg.curp[10] = 'M';
     }
-    
-    student.curp[11] = student.state[0];
-    student.curp[12] = student.state[1];
+
+    reg.curp[11] = student.state[0];
+    reg.curp[12] = student.state[1];
     if (!obtenerSegundaConsonante(student.fullname.fatherLastname) || opcionApellido1 == 2)
     {
-        student.curp[13] = 'X';
+        reg.curp[13] = 'X';
     }
     else
     {
-        student.curp[13] = obtenerSegundaConsonante(student.fullname.fatherLastname);
+        reg.curp[13] = obtenerSegundaConsonante(student.fullname.fatherLastname);
     }
     if (!obtenerSegundaConsonante(student.fullname.motherLastname) || opcionApellido2 == 2)
     {
-        student.curp[14] = 'X';
+        reg.curp[14] = 'X';
     }
     else
     {
-        student.curp[14] = obtenerSegundaConsonante(student.fullname.motherLastname);
+        reg.curp[14] = obtenerSegundaConsonante(student.fullname.motherLastname);
     }
 
     if (!obtenerSegundaConsonante(student.fullname.name))
     {
-        student.curp[15] = 'X';
+        reg.curp[15] = 'X';
     }
     else
     {
-        student.curp[15] = obtenerSegundaConsonante(student.fullname.name);
+        reg.curp[15] = obtenerSegundaConsonante(student.fullname.name);
     }
-    if (anio < 2000)
+    if (student.birthDate.year < 2000)
     {
-        student.curp[16] = '0';
+        reg.curp[16] = '0';
     }
     else
     {
-        if (anio >= 2000 && anio < 2010)
+        if (student.birthDate.year >= 2000 && student.birthDate.year < 2010)
         {
-            student.curp[16] = 'A';
+            reg.curp[16] = 'A';
         }
         else
         {
-            if (anio >= 2010)
+            if (student.birthDate.year >= 2010)
             {
-                student.curp[16] = 'B';
+                reg.curp[16] = 'B';
             }
         }
     }
     ultimoDigito = randomNumber(0, 9);
     sprintf(cultimoDigito, "%d", ultimoDigito);
-    student.curp[17] = cultimoDigito[0];
-    student.curp[18] = '\0';
+    reg.curp[17] = cultimoDigito[0];
+    reg.curp[18] = '\0';
 
-    if (validarAntisonante(student.curp, antisonantes, sizeof(antisonantes) / sizeof(antisonantes[0])))
+    if (validarAntisonante(reg.curp, antisonantes, sizeof(antisonantes) / sizeof(antisonantes[0])))
     {
-        student.curp[1] = 'X';
+        reg.curp[1] = 'X';
     }
 
-    return student;
+    return reg;
+}
+
+int linearSearch(Tstudents array[], int size, int searchNumber)
+{
+    int i;
+
+    for (i = 0; i < size; i++)
+    {
+        if (array[i].enrolment == searchNumber)
+        {
+            return i;
+        }
+    }
+    return -1;
 }
