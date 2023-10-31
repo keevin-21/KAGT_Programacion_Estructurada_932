@@ -72,9 +72,9 @@ void menu()
             for (int j = 0; j < 10; j++)
             {
                 if (j + 1 > 500)
-                {
-                    printf("Register full\n");
-                }
+            {
+                printf("Register full\n");
+            }
                 temp = autoDataReg();
                 while (linearSearch(studentArray, i, temp.enrolment) != -1)
                 {
@@ -91,7 +91,7 @@ void menu()
             break;
 
         case 2:
-
+            
             sorted = 0;
 
             temp = manualDataReg();
@@ -298,7 +298,7 @@ void printRegister(Tstudents array[], int size)
         if (array[i].status == 1)
         {
             printf("%-3d   %-9d   %-30s   %-30s   %-30s   %-4d   %-3d\n",
-                   array[i].status, array[i].enrolment, array[i].name, array[i].fatherLastname, array[i].motherLastname, array[i].age, array[i].gender);
+            array[i].status, array[i].enrolment, array[i].name, array[i].fatherLastname, array[i].motherLastname, array[i].age, array[i].gender);
         }
     }
 }
