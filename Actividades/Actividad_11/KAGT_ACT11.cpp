@@ -22,6 +22,8 @@ typedef struct _students
     int status;
     int enrolment;
     Tfullnames fullname;
+    int lastnameOption1;
+    int lastnameOption2;
     TbirthDate birthDate;
     int age;
     int gender;
@@ -33,6 +35,7 @@ int msges();
 void menu();
 Tstudents autoDataReg();
 Tstudents manualDataReg();
+void curp(Tstudents student);
 int linearSearch(Tstudents array[], int size, int searchNumber);
 int binarySearch(Tstudents array[], int left, int right, int number);
 int sortVector(Tstudents array[], int size);
@@ -72,7 +75,7 @@ int msges2()
     printf("\n\t2.- Manual register (1)");
     printf("\n\t3.- Return to main menu\n\n");
     printf("Select an option: ");
-    subOption = validate(0, 3);
+    subOption = validate(1, 3);
     return subOption;
 }
 
@@ -100,12 +103,8 @@ void menu()
                 case 1:
                     sorted = 0; // Verify if it is sorted or not
 
-                    for (int j = 0; j < 100; j++)
+                    for (int j = 0; j < 1; j++)
                     {
-                        if (j + 1 > MAX_REGISTERS)
-                        {
-                            printf("Register full\n");
-                        }
                         temp = autoDataReg();
                         while (linearSearch(studentArray, i, temp.enrolment) != -1)
                         {
@@ -114,6 +113,7 @@ void menu()
                         studentArray[i++] = temp;
                     }
                     break;
+
                 case 2:
                     sorted = 0;
 
@@ -146,7 +146,6 @@ void menu()
 Tstudents autoDataReg()
 {
     Tstudents student;
-    // int randomIndex = rand() % (sizeof(estados) / sizeof(estados[0]));
 
     student.status = 1;
 
@@ -170,25 +169,25 @@ Tstudents autoDataReg()
     student.birthDate.month = randomNumber(1, 12);
     if (student.birthDate.month == 2 && esBisiesto(student.birthDate.year) == 1)
     {
-        student.birthDate.day = validate(1, 29);
+        student.birthDate.day = randomNumber(1, 29);
     }
     else
     {
         if (student.birthDate.month == 2 && esBisiesto(student.birthDate.year) == 0)
         {
-            student.birthDate.day = validate(1, 28);
+            student.birthDate.day = randomNumber(1, 28);
         }
         else
         {
             if (student.birthDate.month == 1 || student.birthDate.month == 3 || student.birthDate.month == 5 || student.birthDate.month == 7 || student.birthDate.month == 8 || student.birthDate.month == 10 || student.birthDate.month == 12)
             {
-                student.birthDate.day = validate(1, 31);
+                student.birthDate.day = randomNumber(1, 31);
             }
             else
             {
                 if (student.birthDate.month == 4 || student.birthDate.month == 6 || student.birthDate.month == 9 || student.birthDate.month == 11)
                 {
-                    student.birthDate.day = validate(1, 30);
+                    student.birthDate.day = randomNumber(1, 30);
                 }
             }
         }
@@ -199,6 +198,20 @@ Tstudents autoDataReg()
     student.gender = randomNumber(0, 1);
 
     strcpy(student.state, estados[randomNumber(0, 32)]);
+
+    curp(student);
+
+    printf("Enrolment: %i\n", student.enrolment);
+    printf("Name: %s\n", student.fullname.name);
+    printf("Father Lastname: %s\n", student.fullname.fatherLastname);
+    printf("Mother Lastname: %s\n", student.fullname.motherLastname);
+    printf("Birthday: %i-%i-%i\n", student.birthDate.day, student.birthDate.month, student.birthDate.year);
+    printf("Age: %i\n", student.age);
+    printf("Gender: %i\n", student.gender);
+    printf("Birthplace: %s\n", student.state);
+    printf("CURP: ");
+    curp(student);
+    printf("\n");
 
     return student;
 }
@@ -227,8 +240,8 @@ Tstudents manualDataReg()
 
     printf("¿Tienes apellido paterno?\n");
     printf("[1] Si\n[2] No\nOpcion: ");
-    opcionApellido1 = validate(1, 2);
-    if (opcionApellido1 == 1)
+    student.lastnameOption1 = validate(1, 2);
+    if (student.lastnameOption1 == 1)
     {
         printf("Apellido Paterno: ");
         validateString(student.fullname.fatherLastname, sizeof(student.fullname.fatherLastname));
@@ -241,8 +254,8 @@ Tstudents manualDataReg()
 
     printf("¿Tienes apellido materno?\n");
     printf("[1] Si\n[2] No\nOpcion: ");
-    opcionApellido2 = validate(1, 2);
-    if (opcionApellido2 == 1)
+    student.lastnameOption2 = validate(1, 2);
+    if (student.lastnameOption2 == 1)
     {
         printf("Apellido Materno: ");
         validateString(student.fullname.motherLastname, sizeof(student.fullname.motherLastname));
@@ -253,7 +266,7 @@ Tstudents manualDataReg()
     system("CLS");
 
     printf("Year: ");
-    student.birthDate.year = validate(1910, 2023);
+    student.birthDate.year = validate(1893, 2023);
     system("CLS");
 
     printf("Month: ");
@@ -287,6 +300,8 @@ Tstudents manualDataReg()
         }
     }
     system("CLS");
+
+    student.age = 2023 - student.birthDate.year;
 
     printf("Género\n[0] Mujer\n[1] Hombre: ");
     student.gender = validate(0, 1);
@@ -336,140 +351,148 @@ Tstudents manualDataReg()
     }
     system("CLS");
 
+    printf("Enrolment: %i\n", student.enrolment);
+    printf("Name: %s\n", student.fullname.name);
+    printf("Father Lastname: %s\n", student.fullname.fatherLastname);
+    printf("Mother Lastname: %s\n", student.fullname.motherLastname);
+    printf("Birthday: %i-%i-%i\n", student.birthDate.day, student.birthDate.month, student.birthDate.year);
+    printf("Age: %i\n", student.age);
+    printf("Gender: %i\n", student.gender);
+    printf("Birthplace: %s\n", student.state);
+    printf("CURP: ");
+    curp(student);
+    printf("\n");
+
     return student;
 }
 
-Tstudents curp(Tstudents student)
+void curp(Tstudents student)
 {
-    Tstudents reg;
-    reg = student;
-
-    int opcionApellido1;
-    int opcionApellido2;
     char cdia[3];
     char cmes[3];
     char canio[6];
     int ultimoDigito;
     char cultimoDigito[1];
-
+    char curp[19];
     sprintf(cdia, "%d", student.birthDate.day);
     sprintf(cmes, "%d", student.birthDate.month);
     sprintf(canio, "%d", student.birthDate.year);
 
-    if (opcionApellido1 == 1)
+    if (student.lastnameOption1 == 1)
     {
-        reg.curp[0] = toupper(student.fullname.fatherLastname[0]);
-        reg.curp[1] = obtenerPrimeraVocal(student.fullname.fatherLastname);
+        curp[0] = toupper(student.fullname.fatherLastname[0]);
+        curp[1] = obtenerPrimeraVocal(student.fullname.fatherLastname);
     }
     else
     {
-        if (opcionApellido1 == 2)
+        if (student.lastnameOption1 == 2)
         {
-            reg.curp[0] = 'X';
-            reg.curp[1] = 'X';
+            curp[0] = 'X';
+            curp[1] = 'X';
         }
     }
-    if (opcionApellido2 == 1)
+    if (student.lastnameOption2 == 1)
     {
-        reg.curp[2] = toupper(student.fullname.motherLastname[0]);
+        curp[2] = toupper(student.fullname.motherLastname[0]);
     }
     else
     {
-        if (opcionApellido2 == 2)
+        if (student.lastnameOption2 == 2)
         {
-            reg.curp[2] = 'X';
+            curp[2] = 'X';
         }
     }
 
-    reg.curp[3] = toupper(student.fullname.motherLastname[0]);
-    reg.curp[4] = canio[2];
-    reg.curp[5] = canio[3];
+    curp[3] = toupper(student.fullname.name[0]);
+    curp[4] = canio[2];
+    curp[5] = canio[3];
     if (student.birthDate.month < 10)
     {
-        reg.curp[6] = '0';
-        reg.curp[7] = cmes[0];
+        curp[6] = '0';
+        curp[7] = cmes[0];
     }
     else
     {
-        reg.curp[6] = cmes[0];
-        reg.curp[7] = cmes[1];
+        curp[6] = cmes[0];
+        curp[7] = cmes[1];
     }
     if (student.birthDate.day < 10)
     {
-        reg.curp[8] = '0';
-        reg.curp[9] = cdia[0];
+        curp[8] = '0';
+        curp[9] = cdia[0];
     }
     else
     {
-        reg.curp[8] = cdia[0];
-        reg.curp[9] = cdia[1];
+        curp[8] = cdia[0];
+        curp[9] = cdia[1];
     }
 
     if (student.gender == 1)
     {
-        reg.curp[10] = 'H';
+        curp[10] = 'H';
     }
     else
     {
-        reg.curp[10] = 'M';
+        curp[10] = 'M';
     }
 
-    reg.curp[11] = student.state[0];
-    reg.curp[12] = student.state[1];
-    if (!obtenerSegundaConsonante(student.fullname.fatherLastname) || opcionApellido1 == 2)
+    curp[11] = student.state[0];
+    curp[12] = student.state[1];
+    if (!obtenerSegundaConsonante(student.fullname.fatherLastname) || student.lastnameOption1 == 2)
     {
-        reg.curp[13] = 'X';
+        curp[13] = 'X';
     }
     else
     {
-        reg.curp[13] = obtenerSegundaConsonante(student.fullname.fatherLastname);
+        curp[13] = obtenerSegundaConsonante(student.fullname.fatherLastname);
     }
-    if (!obtenerSegundaConsonante(student.fullname.motherLastname) || opcionApellido2 == 2)
+    if (!obtenerSegundaConsonante(student.fullname.motherLastname) || student.lastnameOption2 == 2)
     {
-        reg.curp[14] = 'X';
+        curp[14] = 'X';
     }
     else
     {
-        reg.curp[14] = obtenerSegundaConsonante(student.fullname.motherLastname);
+        curp[14] = obtenerSegundaConsonante(student.fullname.motherLastname);
     }
 
     if (!obtenerSegundaConsonante(student.fullname.name))
     {
-        reg.curp[15] = 'X';
+        curp[15] = 'X';
     }
     else
     {
-        reg.curp[15] = obtenerSegundaConsonante(student.fullname.name);
+        curp[15] = obtenerSegundaConsonante(student.fullname.name);
     }
     if (student.birthDate.year < 2000)
     {
-        reg.curp[16] = '0';
+        curp[16] = '0';
     }
     else
     {
         if (student.birthDate.year >= 2000 && student.birthDate.year < 2010)
         {
-            reg.curp[16] = 'A';
+            curp[16] = 'A';
         }
         else
         {
             if (student.birthDate.year >= 2010)
             {
-                reg.curp[16] = 'B';
+                curp[16] = 'B';
             }
         }
     }
     ultimoDigito = randomNumber(0, 9);
     sprintf(cultimoDigito, "%d", ultimoDigito);
-    reg.curp[17] = cultimoDigito[0];
-    reg.curp[18] = '\0';
+    curp[17] = cultimoDigito[0];
+    curp[18] = '\0';
 
-    if (validarAntisonante(reg.curp, antisonantes, sizeof(antisonantes) / sizeof(antisonantes[0])))
+    if (validarAntisonante(curp, antisonantes, sizeof(antisonantes) / sizeof(antisonantes[0])))
     {
-        reg.curp[1] = 'X';
+        curp[1] = 'X';
     }
 
-    return reg;
+    strcpy(student.curp, curp);
+    printf("%s", student.curp);
 }
 
 int linearSearch(Tstudents array[], int size, int searchNumber)
@@ -493,13 +516,17 @@ int binarySearch(Tstudents array[], int left, int right, int number)
         int medium = left + (right - left) / 2;
 
         if (array[medium].enrolment == number)
+        {
             return medium;
-
+        }
         if (array[medium].enrolment < number)
+        {
             left = medium + 1;
-
+        }
         else
+        {
             right = medium - 1;
+        }
     }
 
     return -1;
@@ -530,15 +557,15 @@ void printRegister(Tstudents array[], int size)
     {
         if (array[i].status == 1)
         {
-            printf("Enrolment: %i", array[i].enrolment);
-            printf("Name: %s", array[i].fullname.name);
-            printf("Father Lastname: %s", array[i].fullname.fatherLastname);
-            printf("Mother Lastname: %s", array[i].fullname.motherLastname);
-            printf("Birthday: %i-%i-%i", array[i].birthDate.day, array[i].birthDate.month, array[i].birthDate.year);
-            printf("Age: %i", array[i].age);
-            printf("Gender: %i", array[i].gender);
-            printf("Birthplace: %s", array[i].state);
-            printf("CURP: %s", array[i].curp);
+            printf("Enrolment: %i\n", array[i].enrolment);
+            printf("Name: %s\n", array[i].fullname.name);
+            printf("Father Lastname: %s\n", array[i].fullname.fatherLastname);
+            printf("Mother Lastname: %s\n", array[i].fullname.motherLastname);
+            printf("Birthday: %i-%i-%i\n", array[i].birthDate.day, array[i].birthDate.month, array[i].birthDate.year);
+            printf("Age: %i\n", array[i].age);
+            printf("Gender: %i\n", array[i].gender);
+            printf("Birthplace: %s\n", array[i].state);
+            printf("CURP: %s\n", array[i].curp);
             printf("\n");
         }
     }
