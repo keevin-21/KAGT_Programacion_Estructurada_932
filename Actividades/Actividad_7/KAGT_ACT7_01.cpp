@@ -39,14 +39,14 @@ void ladderString_2(char *);
 void ladderReverseString_2(char *);
 void consonantString(char *);
 void vocalString(char *);
+bool validateString(char string[], int max_length);
 
 int main()
 {
     char string[100];
 
     printf("Enter the string: ");
-    fflush(stdin);
-    gets(string);
+    validateString(string, sizeof(string));
     menu(string);
     return 0;
 }
@@ -281,4 +281,78 @@ void vocalString(char string[])
             printf("%c", string[i]);
         }
     }
+}
+
+bool validateString(char string[], int max_length)
+{
+    int invalid = 0;
+    int i;
+
+    do
+    {
+        invalid = 0;
+        fflush(stdin);
+        gets(string);
+        uppercaseString(string);
+
+        if (string[0] == ' ')
+        {
+            invalid = 1;
+        }
+
+        for (i = 0; string[i] != '\0'; i++)
+            ;
+        if (i > max_length)
+        {
+            printf("The entered text has more than [%d] characters.\n", max_length);
+            invalid = 1;
+        }
+
+        for (i = 0; string[i] != '\0'; i++)
+        {
+            if (string[i] > 90)
+            {
+                if (string[i] >= 97)
+                {
+                    if (string[i] > 122)
+                    {
+                        invalid = 1;
+                        printf("The text cannot contain special characters like this one you wrote [%c]\n", string[i]);
+                    }
+                }
+                else
+                {
+                    invalid = 1;
+                    printf("The text cannot contain special characters like this one you wrote [%c]\n", string[i]);
+                }
+            }
+            else
+            {
+                if (string[i] == 32)
+                {
+                    if (string[i + 1] == 32)
+                    {
+                        invalid = 1;
+                        printf("The text cannot contain double spaces\n");
+                    }
+                }
+                else
+                {
+                    if (string[i] < 65)
+                    {
+                        invalid = 1;
+                        printf("The text cannot contain special characters like this one you wrote [%c]\n", string[i]);
+                    }
+                }
+            }
+        }
+
+        if (invalid == 1)
+        {
+            printf("Please write a different text.\n");
+        }
+
+    } while (invalid == 1);
+
+    return true;
 }
