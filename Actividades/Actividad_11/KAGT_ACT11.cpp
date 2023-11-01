@@ -206,13 +206,11 @@ void menu()
                 {
                     // change this to selection sort
                     sorted = selectionSort(studentArray, i);
-                    printf("Register is now sorted.");
                 }
                 else
                 {
                     // and this will be the 2nd method, quick sort
-
-                    quicksort(studentArray, 300000, 399999);
+                    quicksort(studentArray, 0, i);
                     printf("Register is now sorted.");
                 }
             }
@@ -718,16 +716,16 @@ void printRegister(Tstudents array[], int i)
 
 void writeTextFile(Tstudents array[], int size)
 {
-    FILE *archivoSalida = freopen("G:\\My Drive\\UABC\\TercerSemestre\\KAGT_Programacion_Estructurada_932\\Actividades\\Actividad_11\\registers.txt", "w", stdout);
+    FILE *outputFile = freopen("G:\\My Drive\\UABC\\TercerSemestre\\KAGT_Programacion_Estructurada_932\\Actividades\\Actividad_11\\registers.txt", "w", stdout);
 
-    printf("NO. REGISTER || ENROLMENT || FATHER LASTNAME || MOTHER LASTNAME ||   NAME(S)   ||    AGE    ||    GENDER    ||    CURP\n");
+    printf("NO. REGISTER || ENROLMENT  || FATHER LASTNAME   || MOTHER LASTNAME   || NAME(S)    || AGE  || GENDER   || CURP\n");
     printf("==========================================================================================================================\n");
 
     for (int i = 0; i < size; i++)
     {
         if (array[i].status == 1)
         {
-            printf("%12d || %9d || %16s || %16s || %9s || %6d || ", i + 1, array[i].enrolment, array[i].fullname.fatherLastname, array[i].fullname.motherLastname, array[i].fullname.name, array[i].age);
+            printf("%12d || %11d || %18s || %18s || %10s || %3d  || ", i + 1, array[i].enrolment, array[i].fullname.fatherLastname, array[i].fullname.motherLastname, array[i].fullname.name, array[i].age);
 
             if (array[i].gender == 1)
             {
@@ -746,7 +744,7 @@ void writeTextFile(Tstudents array[], int size)
         }
     }
 
-    fclose(archivoSalida);
+    fclose(outputFile);
 
     system("PAUSE");
 }
