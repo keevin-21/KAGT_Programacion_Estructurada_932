@@ -1,2 +1,0 @@
-Hola, esto se imprimirá en el archivo.
-Otra línea en el archivo.

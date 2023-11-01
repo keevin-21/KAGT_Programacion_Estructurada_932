@@ -315,7 +315,6 @@ Tstudents manualDataReg()
     omitirPartes(student.fullname.name, partes);
     omitirPartes(student.fullname.name, partes);
     noSpacesString(student.fullname.name);
-    system("CLS");
 
     printf("¿Tienes apellido paterno?\n");
     printf("[1] Si\n[2] No\nOpcion: ");
@@ -329,7 +328,6 @@ Tstudents manualDataReg()
         noSpacesString(student.fullname.fatherLastname);
         puts(student.fullname.fatherLastname);
     }
-    system("CLS");
 
     printf("¿Tienes apellido materno?\n");
     printf("[1] Si\n[2] No\nOpcion: ");
@@ -342,15 +340,12 @@ Tstudents manualDataReg()
         omitirPartes(student.fullname.motherLastname, partes);
         noSpacesString(student.fullname.motherLastname);
     }
-    system("CLS");
 
     printf("Year: ");
     student.birthDate.year = validate(1893, 2023);
-    system("CLS");
 
     printf("Month: ");
     student.birthDate.month = validate(1, 12);
-    system("CLS");
 
     printf("Day: ");
     if (student.birthDate.month == 2 && esBisiesto(student.birthDate.year) == 1)
@@ -378,13 +373,11 @@ Tstudents manualDataReg()
             }
         }
     }
-    system("CLS");
 
     student.age = 2023 - student.birthDate.year;
 
     printf("Género\n[0] Mujer\n[1] Hombre: ");
     student.gender = validate(0, 1);
-    system("CLS");
 
     printf("Aguascalientes (AS)\n");
     printf("Baja California (BC)\n");
@@ -428,7 +421,6 @@ Tstudents manualDataReg()
         printf("Entidad de Nacimiento: ");
         validateString(student.state, sizeof(student.state));
     }
-    system("CLS");
 
     return student;
 }
