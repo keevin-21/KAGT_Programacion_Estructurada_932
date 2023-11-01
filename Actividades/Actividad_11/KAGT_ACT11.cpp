@@ -1,7 +1,7 @@
 #include "kewvyValidates.h"
 #include "fullnames.h"
 #include "listas.h"
-#define MAX_REGISTERS 200
+#define MAX_REGISTERS 2000
 
 typedef struct _fullnames
 {
@@ -38,8 +38,10 @@ Tstudents manualDataReg();
 void curp(Tstudents student);
 int linearSearch(Tstudents array[], int size, int searchNumber);
 int binarySearch(Tstudents array[], int left, int right, int number);
-int bubbleSort(Tstudents array[], int size);
 int selectionSort(Tstudents array[], int size);
+void swap(Tstudents array[], int i, int j);
+int partition(Tstudents array[], int low, int high);
+void quicksort(Tstudents array[], int low, int high);
 void printRegister(Tstudents array[], int size);
 void writeTextFile(Tstudents array[], int size);
 
@@ -115,16 +117,13 @@ void menu()
                         studentArray[i++] = temp;
                     }
                     printf("100 automatic registrations have been added.");
-                    system("PAUSE");
-                    system("CLS");
+
                     break;
 
                 case 2:
                     if (i >= MAX_REGISTERS)
                     {
                         printf("\n\nError - Maximum registers reached, you can't add more.\n\n");
-                        system("PAUSE");
-                        system("CLS");
                     }
                     else
                     {
@@ -138,11 +137,12 @@ void menu()
                         }
                         studentArray[i++] = temp;
                         printf("Manual registration successfully added.");
-                        system("PAUSE");
-                        system("CLS");
+
                         break;
                     }
                 }
+                system("PAUSE");
+                system("CLS");
             } while (subOption != 3);
             break;
 
@@ -205,13 +205,14 @@ void menu()
                 if (i <= 500)
                 {
                     // change this to selection sort
-                    sorted = bubbleSort(studentArray, i);
+                    sorted = selectionSort(studentArray, i);
                     printf("Register is now sorted.");
                 }
                 else
                 {
                     // and this will be the 2nd method, quick sort
-                    sorted = selectionSort(studentArray, i);
+
+                    quicksort(studentArray, 300000, 399999);
                     printf("Register is now sorted.");
                 }
             }
@@ -604,33 +605,7 @@ int binarySearch(Tstudents array[], int left, int right, int number)
     return -1;
 }
 
-// change this to selection sort
-int bubbleSort(Tstudents array[], int size)
-{
-    int i, j;
-    Tstudents temp;
-    int swaps = 0;
-
-    for (i = 0; i < size - 1; i++)
-    {
-        for (j = 0; j < size - i - 1; j++)
-        {
-            if (array[j].enrolment > array[j + 1].enrolment)
-            {
-                temp = array[j];
-                array[j] = array[j + 1];
-                array[j + 1] = temp;
-                swaps++;
-            }
-        }
-    }
-    if (swaps > 0)
-    {
-        return 1;
-    }
-}
-
-// and this will be the 2nd method, quick sort
+/*selection sort*/
 int selectionSort(Tstudents array[], int size)
 {
     Tstudents temp;
@@ -649,6 +624,44 @@ int selectionSort(Tstudents array[], int size)
     }
     return 1;
 }
+
+/*2nd method, quick sort*/
+void swap(Tstudents array[], int i, int j)
+{
+    Tstudents temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+}
+
+int partition(Tstudents array[], int low, int high)
+{
+    Tstudents pivot;
+    pivot.enrolment = array[high].enrolment;
+    int i = low - 1;
+
+    for (int j = low; j <= high - 1; j++)
+    {
+        if (array[j].enrolment <= pivot.enrolment)
+        {
+            i++;
+            swap(array, i, j);
+        }
+    }
+    swap(array, i + 1, high);
+    return i + 1;
+}
+
+void quicksort(Tstudents array[], int low, int high)
+{
+    if (low < high)
+    {
+        int pi = partition(array, low, high);
+
+        quicksort(array, low, pi - 1);
+        quicksort(array, pi + 1, high);
+    }
+}
+/*===================*/
 
 void printRegister(Tstudents array[], int i)
 {
@@ -714,25 +727,22 @@ void writeTextFile(Tstudents array[], int size)
     {
         if (array[i].status == 1)
         {
-            if (array[i].status == 1)
+            printf("%12d || %9d || %16s || %16s || %9s || %6d || ", i + 1, array[i].enrolment, array[i].fullname.fatherLastname, array[i].fullname.motherLastname, array[i].fullname.name, array[i].age);
+
+            if (array[i].gender == 1)
             {
-                printf("%12d || %9d || %16s || %16s || %9s || %6d || ", i + 1, array[i].enrolment, array[i].fullname.fatherLastname, array[i].fullname.motherLastname, array[i].fullname.name, array[i].age);
-
-                if (array[i].gender == 1)
-                {
-                    printf("MALE       || ");
-                }
-                else
-                {
-                    if (array[i].gender == 0)
-                    {
-                        printf("FEMALE   || ");
-                    }
-                }
-
-                curp(array[i]);
-                printf("\n");
+                printf("MALE       || ");
             }
+            else
+            {
+                if (array[i].gender == 0)
+                {
+                    printf("FEMALE   || ");
+                }
+            }
+
+            curp(array[i]);
+            printf("\n");
         }
     }
 
