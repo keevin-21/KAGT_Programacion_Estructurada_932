@@ -1,7 +1,7 @@
 #include "kewvyValidates.h"
 #include "fullnames.h"
 #include "listas.h"
-#define MAX_REGISTERS 2000
+#define MAX_REGISTERS 200
 
 typedef struct _fullnames
 {
@@ -114,27 +114,34 @@ void menu()
                         }
                         studentArray[i++] = temp;
                     }
+                    printf("100 automatic registrations have been added.");
+                    system("PAUSE");
+                    system("CLS");
                     break;
 
                 case 2:
-                    if (i > MAX_REGISTERS)
+                    if (i >= MAX_REGISTERS)
                     {
-                        printf("Error - Maximum registers reached, you can't add more.");
+                        printf("\n\nError - Maximum registers reached, you can't add more.\n\n");
+                        system("PAUSE");
+                        system("CLS");
                     }
                     else
                     {
-                    sorted = 0;
+                        sorted = 0;
 
-                    temp = manualDataReg();
-                    while (linearSearch(studentArray, i, temp.enrolment) != -1)
-                    {
-                        printf("Repeated enrolment - Please enter a different one.");
-                        temp.enrolment = validate(300000, 399999);
+                        temp = manualDataReg();
+                        while (linearSearch(studentArray, i, temp.enrolment) != -1)
+                        {
+                            printf("Repeated enrolment - Please enter a different one.");
+                            temp.enrolment = validate(300000, 399999);
+                        }
+                        studentArray[i++] = temp;
+                        printf("Manual registration successfully added.");
+                        system("PAUSE");
+                        system("CLS");
+                        break;
                     }
-                    studentArray[i++] = temp;
-                    break;
-                    }
-                    
                 }
             } while (subOption != 3);
             break;
@@ -172,7 +179,7 @@ void menu()
             {
                 printf("Enrolment already removed.");
             }
-            
+
             if (sorted == 0)
             {
                 found = linearSearch(studentArray, i, search);
@@ -708,24 +715,24 @@ void writeTextFile(Tstudents array[], int size)
         if (array[i].status == 1)
         {
             if (array[i].status == 1)
+            {
+                printf("%12d || %9d || %16s || %16s || %9s || %6d || ", i + 1, array[i].enrolment, array[i].fullname.fatherLastname, array[i].fullname.motherLastname, array[i].fullname.name, array[i].age);
+
+                if (array[i].gender == 1)
                 {
-                    printf("%12d || %9d || %16s || %16s || %9s || %6d || ", i + 1, array[i].enrolment, array[i].fullname.fatherLastname, array[i].fullname.motherLastname, array[i].fullname.name, array[i].age);
-
-                    if (array[i].gender == 1)
-                    {
-                        printf("MALE     || ");
-                    }
-                    else
-                    {
-                        if (array[i].gender == 0)
-                        {
-                            printf("FEMALE   || ");
-                        }
-                    }
-
-                    curp(array[i]);
-                    printf("\n");
+                    printf("MALE       || ");
                 }
+                else
+                {
+                    if (array[i].gender == 0)
+                    {
+                        printf("FEMALE   || ");
+                    }
+                }
+
+                curp(array[i]);
+                printf("\n");
+            }
         }
     }
 
