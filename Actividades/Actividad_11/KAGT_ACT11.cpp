@@ -41,6 +41,7 @@ int binarySearch(Tstudents array[], int left, int right, int number);
 int bubbleSort(Tstudents array[], int size);
 int selectionSort(Tstudents array[], int size);
 void printRegister(Tstudents array[], int size);
+void writeTextFile(Tstudents array[], int size);
 
 int main()
 {
@@ -116,6 +117,12 @@ void menu()
                     break;
 
                 case 2:
+                    if (i > MAX_REGISTERS)
+                    {
+                        printf("Error - Maximum registers reached, you can't add more.");
+                    }
+                    else
+                    {
                     sorted = 0;
 
                     temp = manualDataReg();
@@ -126,6 +133,8 @@ void menu()
                     }
                     studentArray[i++] = temp;
                     break;
+                    }
+                    
                 }
             } while (subOption != 3);
             break;
@@ -159,6 +168,11 @@ void menu()
             printf("Search enrolment: ");
             search = validate(300000, 399999);
 
+            if (studentArray[search].enrolment == 0)
+            {
+                printf("Enrolment already removed.");
+            }
+            
             if (sorted == 0)
             {
                 found = linearSearch(studentArray, i, search);
@@ -170,7 +184,7 @@ void menu()
 
             if (found != -1)
             {
-                printf("Enrolment found in register number %i.", found);
+                printf("Enrolment found in register number %i.", found + 1);
             }
             else
             {
@@ -204,8 +218,8 @@ void menu()
             break;
 
         case 6:
-            printf("- Text file is now created-");
-            /*code*/
+            printf("Text file is now created.\n");
+            writeTextFile(studentArray, i);
             break;
         case 0:
             return;
@@ -682,3 +696,40 @@ void printRegister(Tstudents array[], int i)
     }
 }
 
+void writeTextFile(Tstudents array[], int size)
+{
+    FILE *archivoSalida = freopen("G:\\My Drive\\UABC\\TercerSemestre\\KAGT_Programacion_Estructurada_932\\Actividades\\Actividad_11\\registers.txt", "w", stdout);
+
+    printf("NO. REGISTER || ENROLMENT || FATHER LASTNAME || MOTHER LASTNAME ||   NAME(S)   ||    AGE    ||    GENDER    ||    CURP\n");
+    printf("==========================================================================================================================\n");
+
+    for (int i = 0; i < size; i++)
+    {
+        if (array[i].status == 1)
+        {
+            if (array[i].status == 1)
+                {
+                    printf("%12d || %9d || %16s || %16s || %9s || %6d || ", i + 1, array[i].enrolment, array[i].fullname.fatherLastname, array[i].fullname.motherLastname, array[i].fullname.name, array[i].age);
+
+                    if (array[i].gender == 1)
+                    {
+                        printf("MALE     || ");
+                    }
+                    else
+                    {
+                        if (array[i].gender == 0)
+                        {
+                            printf("FEMALE   || ");
+                        }
+                    }
+
+                    curp(array[i]);
+                    printf("\n");
+                }
+        }
+    }
+
+    fclose(archivoSalida);
+
+    system("PAUSE");
+}
