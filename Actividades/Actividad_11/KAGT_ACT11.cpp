@@ -38,6 +38,7 @@ Tstudents manualDataReg();
 void curp(Tstudents student);
 int linearSearch(Tstudents array[], int size, int searchNumber);
 int binarySearch(Tstudents array[], int left, int right, int number);
+void printOneRegister(Tstudents student);
 int selectionSort(Tstudents array[], int size);
 void swap(Tstudents array[], int i, int j);
 int partition(Tstudents array[], int low, int high);
@@ -175,11 +176,6 @@ void menu()
             printf("Search enrolment: ");
             search = validate(300000, 399999);
 
-            if (studentArray[search].enrolment == 0)
-            {
-                printf("Enrolment already removed.");
-            }
-
             if (sorted == 0)
             {
                 found = linearSearch(studentArray, i, search);
@@ -191,7 +187,7 @@ void menu()
 
             if (found != -1)
             {
-                printf("Enrolment found in register number %i.", found + 1);
+                printf("Enrolment found in register number %i.\n\n", found + 1);
             }
             else
             {
@@ -746,5 +742,18 @@ void writeTextFile(Tstudents array[], int size)
 
     fclose(outputFile);
 
-    system("PAUSE");
+    return;
+}
+
+void printOneRegister(Tstudents student)
+{
+    printf("Enrolment: %i", student.enrolment);
+    printf("Name: %s", student.fullname.name);
+    printf("Enrolment: %s", student.fullname.fatherLastname);
+    printf("Enrolment: %s", student.fullname.motherLastname);
+    printf("Enrolment: %i-%i-%i", student.birthDate.day, student.birthDate.month, student.birthDate.year);
+    printf("Enrolment: %i", student.age);
+    printf("%s\n", student.gender == 1 ? "MALE" : "FEMALE");
+    printf("Birthplace: %s", student.state);
+    curp(student);
 }
