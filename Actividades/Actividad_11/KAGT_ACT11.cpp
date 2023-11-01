@@ -118,7 +118,6 @@ void menu()
                         studentArray[i++] = temp;
                     }
                     printf("100 automatic registrations have been added.");
-
                     break;
 
                 case 2:
@@ -138,7 +137,6 @@ void menu()
                         }
                         studentArray[i++] = temp;
                         printf("Manual registration successfully added.");
-
                         break;
                     }
                 }
