@@ -1,7 +1,7 @@
 #include "kewvyValidates.h"
 #include "fullnames.h"
 #include "listas.h"
-#define MAX_REGISTERS 2000
+#define MAX_REGISTERS 200
 
 typedef struct _fullnames
 {
@@ -99,34 +99,33 @@ void menu()
         {
         case 1:
             int subOption;
-
-            do
+            if (i >= MAX_REGISTERS)
             {
-                subOption = msges2();
-                switch (subOption)
+                printf("\n\nError - Maximum registers reached, you can't add more.\n\n");
+            }
+            else
+            {
+                do
                 {
-                case 1:
-                    sorted = 0; // Verify if it is sorted or not
-
-                    for (int j = 0; j < 100; j++)
+                    subOption = msges2();
+                    switch (subOption)
                     {
-                        temp = autoDataReg();
-                        while (linearSearch(studentArray, i, temp.enrolment) != -1)
+                    case 1:
+                        sorted = 0; // Verify if it is sorted or not
+
+                        for (int j = 0; j < 100; j++)
                         {
-                            temp.enrolment = randomNumber(300000, 399999);
+                            temp = autoDataReg();
+                            while (linearSearch(studentArray, i, temp.enrolment) != -1)
+                            {
+                                temp.enrolment = randomNumber(300000, 399999);
+                            }
+                            studentArray[i++] = temp;
                         }
-                        studentArray[i++] = temp;
-                    }
-                    printf("100 automatic registrations have been added.");
-                    break;
+                        printf("100 automatic registrations have been added.");
+                        break;
 
-                case 2:
-                    if (i >= MAX_REGISTERS)
-                    {
-                        printf("\n\nError - Maximum registers reached, you can't add more.\n\n");
-                    }
-                    else
-                    {
+                    case 2:
                         sorted = 0;
 
                         temp = manualDataReg();
@@ -139,10 +138,10 @@ void menu()
                         printf("Manual registration successfully added.");
                         break;
                     }
-                }
-                system("PAUSE");
-                system("CLS");
-            } while (subOption != 3);
+                    system("PAUSE");
+                    system("CLS");
+                } while (subOption != 3);
+            }
             break;
 
         case 2:
