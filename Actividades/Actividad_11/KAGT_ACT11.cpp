@@ -1,7 +1,7 @@
 #include "kewvyValidates.h"
 #include "fullnames.h"
 #include "listas.h"
-#define MAX_REGISTERS 200
+#define MAX_REGISTERS 2000
 
 typedef struct _fullnames
 {
