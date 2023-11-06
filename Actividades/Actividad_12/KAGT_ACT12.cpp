@@ -15,6 +15,7 @@ typedef struct _students
 int msges();
 void menu();
 Tstudents autoDataReg();
+void readTextFile(Tstudents student);
 
 int main()
 {
@@ -29,12 +30,13 @@ int msges()
     int option;
 
     printf("MENU");
-    printf("\n\t1.- Add registers");
-    printf("\n\t2.- Delete register");
-    printf("\n\t3.- Search register");
-    printf("\n\t4.- Sort registers");
-    printf("\n\t5.- Print Registers");
-    printf("\n\t6.- Create .txt file");
+    printf("\n\t1.- Load file");
+    printf("\n\t2.- Add register");
+    printf("\n\t3.- Delete register");
+    printf("\n\t4.- Search registers");
+    printf("\n\t5.- Sort registers");
+    printf("\n\t6.- Print registers");
+    printf("\n\t7.- Create .txt file");
     printf("\n\t0.- Exit\n\n");
     printf("Select an option: ");
     option = validate(0, 6);
@@ -43,7 +45,7 @@ int msges()
 
 void menu()
 {
-    int option, sorted, i, remove, search, found;
+    int option, sorted, i, remove, search, found, loaded;
     Tstudents studentArray[MAX_REGISTERS], temp;
     i = 0; // Start registers in zero
 
@@ -55,7 +57,15 @@ void menu()
         switch (option)
         {
         case 1:
-            /*code*/
+            loaded = 0;
+            if (loaded = 1)
+            {
+                printf("File already loaded, you only can load the file once.");
+            }
+            else
+            {
+
+            }
             break;
 
         case 2:
@@ -247,3 +257,41 @@ void quicksort(Tstudents array[], int low, int high)
 }
 /*===================*/
 
+void readTextFile(Tstudents student)
+{
+    FILE *file;
+    char character;
+
+    file = fopen("G:\\My Drive\\UABC\\TercerSemestre\\KAGT_Programacion_Estructurada_932\\Actividades\\Actividad_12\\datos.txt", "r");
+
+    if (file == NULL)
+    {
+        printf("No se pudo abrir el archivo.\n");
+    }
+
+    char line[100];
+
+    while (fgets(line, sizeof(line), file) != NULL) {
+        int variablesRead = sscanf(line, "&d %s %s %s %d %s",
+                                     &student.enrolment, student.name, student.fatherLastname, student.motherLastname, &student.age, student.gender);
+
+        if (variablesRead == 7)
+        {
+            printf("Variables correctly read.");
+            /*
+            printf("Número: %d\n", numero);
+            printf("Nombre: %s\n", nombre);
+            printf("Primer apellido: %s\n", apellido1);
+            printf("Segundo apellido: %s\n", apellido2);
+            printf("Edad: %d\n", edad);
+            printf("Género: %s\n", genero);
+            */
+        }
+        else
+        {
+            printf("Error al analizar la línea: %s", line);
+        }
+    }
+
+    fclose(file);
+}
