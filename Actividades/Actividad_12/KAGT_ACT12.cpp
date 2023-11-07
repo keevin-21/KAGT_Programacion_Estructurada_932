@@ -257,35 +257,28 @@ void quicksort(Tstudents array[], int low, int high)
 }
 /*===================*/
 
-void readTextFile(Tstudents student)
+void readTextFile(Tstudents array[], int size)
 {
     FILE *file;
     char character;
+    char line[100];
 
     file = fopen("G:\\My Drive\\UABC\\TercerSemestre\\KAGT_Programacion_Estructurada_932\\Actividades\\Actividad_12\\datos.txt", "r");
 
     if (file == NULL)
     {
-        printf("No se pudo abrir el archivo.\n");
+        printf("Error - Can't open the file.\n");
     }
 
-    char line[100];
-
-    while (fgets(line, sizeof(line), file) != NULL) {
-        int variablesRead = sscanf(line, "&d %s %s %s %d %s",
-                                     &student.enrolment, student.name, student.fatherLastname, student.motherLastname, &student.age, student.gender);
+    size = 0;
+    while (fgets(line, sizeof(line), file) != NULL)
+    {
+        int variablesRead = sscanf(line, "%i.- %i %s %s %s %i %s",
+                                     &array[size].enrolment, array[size].name, array[size].fatherLastname, array[size].motherLastname, &array[size].age, array[size].gender);
 
         if (variablesRead == 7)
         {
-            printf("Variables correctly read.");
-            /*
-            printf("Número: %d\n", numero);
-            printf("Nombre: %s\n", nombre);
-            printf("Primer apellido: %s\n", apellido1);
-            printf("Segundo apellido: %s\n", apellido2);
-            printf("Edad: %d\n", edad);
-            printf("Género: %s\n", genero);
-            */
+            size++;
         }
         else
         {

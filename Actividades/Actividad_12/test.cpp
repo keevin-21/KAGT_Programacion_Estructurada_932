@@ -1,30 +1,43 @@
 #include <stdio.h>
 
 int main() {
-    char linea[] = "0.- 310442 MARIA SOTO PEREZ 33 FEMENINO";  // Ejemplo de una línea de la lista
+    FILE *archivo;  // Declarar un puntero a FILE
 
-    int numero; // Variable para almacenar el número
-    char nombre[50]; // Variable para almacenar el nombre
-    char apellido1[50]; // Variable para el primer apellido
-    char apellido2[50]; // Variable para el segundo apellido
-    int edad; // Variable para la edad
-    char genero[20]; // Variable para el género
+    archivo = fopen("G:\\My Drive\\UABC\\TercerSemestre\\KAGT_Programacion_Estructurada_932\\Actividades\\Actividad_12\\datos.txt", "r");  // Abrir el archivo en modo lectura ("r")
 
-    // Utiliza sscanf para asignar los valores de la línea a las variables
-    int elementosLeidos = sscanf(linea, "%d.- %d %s %s %s %d %s",
-                                 &numero, &numero, nombre, apellido1, apellido2, &edad, genero);
-
-    if (elementosLeidos == 7) {
-        // Imprime los valores asignados a las variables
-        printf("Número: %d\n", numero);
-        printf("Nombre: %s\n", nombre);
-        printf("Primer apellido: %s\n", apellido1);
-        printf("Segundo apellido: %s\n", apellido2);
-        printf("Edad: %d\n", edad);
-        printf("Género: %s\n", genero);
-    } else {
-        printf("Error al analizar la línea.\n");
+    if (archivo == NULL) {
+        // Verificar si la apertura del archivo fue exitosa
+        printf("No se pudo abrir el archivo.\n");
+        return 1;  // Salir del programa con un código de error
     }
 
-    return 0;
+    int numero;
+    char nombre[50];
+    char apellido1[50];
+    char apellido2[50];
+    int edad;
+    char genero[20];
+
+    char linea[100];  // Un búfer para almacenar las líneas del archivo
+
+    while (fgets(linea, sizeof(linea), archivo) != NULL) {
+        int elementosLeidos = sscanf(linea, "%d.- %d %s %s %s %d %s",
+                                     &numero, &numero, nombre, apellido1, apellido2, &edad, genero);
+
+        if (elementosLeidos == 7) {
+            // Imprime los valores asignados a las variables
+            printf("Número: %d\n", numero);
+            printf("Nombre: %s\n", nombre);
+            printf("Primer apellido: %s\n", apellido1);
+            printf("Segundo apellido: %s\n", apellido2);
+            printf("Edad: %d\n", edad);
+            printf("Género: %s\n", genero);
+        } else {
+            printf("Error al analizar la línea: %s", linea);
+        }
+    }
+
+    fclose(archivo);  // Cierra el archivo cuando hayas terminado de usarlo
+
+    return 0;  // Salir del programa con éxito
 }
