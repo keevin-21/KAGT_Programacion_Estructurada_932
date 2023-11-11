@@ -9,13 +9,19 @@ typedef struct _students
     char motherLastname[30];
     char name[30];
     int age;
-    int gender;
+    char gender[10];
 } Tstudents;
 
 int msges();
 void menu();
 Tstudents autoDataReg();
-void readTextFile(Tstudents student);
+void readTextFile(Tstudents array[], int *size);
+int linearSearch(Tstudents array[], int size, int searchNumber);
+int binarySearch(Tstudents array[], int left, int right, int number);
+int selectionSort(Tstudents array[], int size);
+void swap(Tstudents array[], int i, int j);
+int partition(Tstudents array[], int low, int high);
+void quicksort(Tstudents array[], int low, int high);
 
 int main()
 {
@@ -37,6 +43,8 @@ int msges()
     printf("\n\t5.- Sort registers");
     printf("\n\t6.- Print registers");
     printf("\n\t7.- Create .txt file");
+    printf("\n\t8.- Cantidad de registros en Archivo");
+    printf("\n\t9.- Mostrar Borrados");
     printf("\n\t0.- Exit\n\n");
     printf("Select an option: ");
     option = validate(0, 6);
@@ -45,9 +53,10 @@ int msges()
 
 void menu()
 {
-    int option, sorted, i, remove, search, found, loaded;
+    int option, sorted, i, search, found, loaded;
     Tstudents studentArray[MAX_REGISTERS], temp;
     i = 0; // Start registers in zero
+    loaded = 0;
 
     do
     {
@@ -57,14 +66,16 @@ void menu()
         switch (option)
         {
         case 1:
-            loaded = 0;
-            if (loaded = 1)
+            if (loaded == 0)
             {
-                printf("File already loaded, you only can load the file once.");
+                readTextFile(studentArray, &i);
+                printf("Now the file is loaded.\n");
+
+                loaded++;
             }
             else
             {
-
+                printf("File already loaded, you only can load the file once.");
             }
             break;
 
@@ -129,6 +140,7 @@ void menu()
             }
             break;
         }
+        system("PAUSE");
     } while (option != 0);
 }
 
@@ -149,12 +161,12 @@ Tstudents autoDataReg()
     if (randomNumber(0, 1) == 1)
     {
         strcpy(student.name, maleNames[randomNumber(0, 19)]);
-        student.gender = 1;
+        strcpy(student.gender, "MASCULINO");
     }
     else
     {
         strcpy(student.name, femaleNames[randomNumber(0, 19)]);
-        student.gender = 0;
+        strcpy(student.gender, "FEMENINO");
     }
 
     student.age = randomNumber(17, 30);
@@ -257,10 +269,11 @@ void quicksort(Tstudents array[], int low, int high)
 }
 /*===================*/
 
-void readTextFile(Tstudents array[], int size)
+void readTextFile(Tstudents array[], int *size)
 {
+    Tstudents reg;
+
     FILE *file;
-    char character;
     char line[100];
 
     file = fopen("G:\\My Drive\\UABC\\TercerSemestre\\KAGT_Programacion_Estructurada_932\\Actividades\\Actividad_12\\datos.txt", "r");
@@ -269,22 +282,79 @@ void readTextFile(Tstudents array[], int size)
     {
         printf("Error - Can't open the file.\n");
     }
-
-    size = 0;
-    while (fgets(line, sizeof(line), file) != NULL)
+    else
     {
-        int variablesRead = sscanf(line, "%i.- %i %s %s %s %i %s",
-                                     &array[size].enrolment, array[size].name, array[size].fatherLastname, array[size].motherLastname, &array[size].age, array[size].gender);
+        *size = 0;
+        int x = 0;
+        while (fgets(line, sizeof(line), file) != NULL)
+        {
 
-        if (variablesRead == 7)
-        {
-            size++;
+            int variablesRead;
+
+            variablesRead = sscanf(line, "%i.- %i %s %s %s %i %i",
+                                   &x, &reg.enrolment, reg.name, reg.fatherLastname, reg.motherLastname, &reg.age, &reg.gender);
+
+            if (variablesRead)
+            {
+                array[(*size)++] = reg;
+            }
+            else
+            {
+                printf("Error - In line: %s", line);
+            }
         }
-        else
+        fclose(file);
+    }
+}
+
+void printRegister(Tstudents array[], int i)
+{
+    int status = 0;
+    int page = 0;
+    int tam = 0;
+    int j;
+
+    while (tam < i)
+    {
+        system("CLS");
+
+        printf("REGISTROS\n");
+        printf("NO. REGISTER || ENROLMENT || FATHER LASTNAME || MOTHER LASTNAME || NAME(S) ||  AGE  ||     GENDER     ||\n");
+        printf("======================================================================================================================\n");
+
+        for (j = page * 40; j < (page + 1) * 40; j++)
         {
-            printf("Error al analizar la línea: %s", line);
+            if (tam < i)
+            {
+                if (array[j].status == 1)
+                {
+                    printf("%12d || %9d || %16s || %16s || %9s || %10S || ", j + 1, array[j].enrolment, array[j].fatherLastname, array[j].motherLastname, array[j].name, array[j].age);
+
+                    // USE char:))))
+                    if (array[j].gender == 1)
+                    {
+                        printf("MALE  || ");
+                    }
+                    else
+                    {
+                        if (array[j].gender == 0)
+                        {
+                            printf("FEMALE   || ");
+                        }
+                    }
+                    printf("\n");
+
+                    status++;
+                    tam++;
+                }
+            }
+        }
+        page++;
+
+        if (tam < i)
+        {
+            printf("PRESS ENTER TO SEE MORE REGISTERS\n");
+            getchar();
         }
     }
-
-    fclose(file);
 }
