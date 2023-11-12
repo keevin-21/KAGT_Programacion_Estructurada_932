@@ -22,6 +22,8 @@ int selectionSort(Tstudents array[], int size);
 void swap(Tstudents array[], int i, int j);
 int partition(Tstudents array[], int low, int high);
 void quicksort(Tstudents array[], int low, int high);
+void printRegister(Tstudents array[], int i);
+void writeTextFile(Tstudents array[], int size);
 
 int main()
 {
@@ -47,7 +49,7 @@ int msges()
     printf("\n\t9.- Mostrar Borrados");
     printf("\n\t0.- Exit\n\n");
     printf("Select an option: ");
-    option = validate(0, 6);
+    option = validate(0, 9);
     return option;
 }
 
@@ -57,6 +59,8 @@ void menu()
     Tstudents studentArray[MAX_REGISTERS], temp;
     i = 0; // Start registers in zero
     loaded = 0;
+    sorted = 0;
+    int j;
 
     do
     {
@@ -70,7 +74,6 @@ void menu()
             {
                 readTextFile(studentArray, &i);
                 printf("Now the file is loaded.\n");
-
                 loaded++;
             }
             else
@@ -122,6 +125,10 @@ void menu()
             break;
 
         case 4:
+
+            break;
+
+        case 5:
             if (sorted == 0)
             {
                 if (i <= 500)
@@ -138,6 +145,14 @@ void menu()
             {
                 printf("Register already sorted.");
             }
+            break;
+
+        case 6:
+            printRegister(studentArray, i);
+            break;
+
+        case 7:
+            writeTextFile(studentArray, i);
             break;
         }
         system("PAUSE");
@@ -291,11 +306,12 @@ void readTextFile(Tstudents array[], int *size)
 
             int variablesRead;
 
-            variablesRead = sscanf(line, "%i.- %i %s %s %s %i %i",
-                                   &x, &reg.enrolment, reg.name, reg.fatherLastname, reg.motherLastname, &reg.age, &reg.gender);
+            variablesRead = sscanf(line, "%i.- %i %s %s %s %i %s",
+                                   &x, &reg.enrolment, reg.name, reg.fatherLastname, reg.motherLastname, &reg.age, reg.gender);
 
             if (variablesRead)
             {
+                reg.status = 1;
                 array[(*size)++] = reg;
             }
             else
@@ -318,7 +334,7 @@ void printRegister(Tstudents array[], int i)
     {
         system("CLS");
 
-        printf("REGISTROS\n");
+        printf("REGISTER LIST\n");
         printf("NO. REGISTER || ENROLMENT || FATHER LASTNAME || MOTHER LASTNAME || NAME(S) ||  AGE  ||     GENDER     ||\n");
         printf("======================================================================================================================\n");
 
@@ -328,20 +344,7 @@ void printRegister(Tstudents array[], int i)
             {
                 if (array[j].status == 1)
                 {
-                    printf("%12d || %9d || %16s || %16s || %9s || %10S || ", j + 1, array[j].enrolment, array[j].fatherLastname, array[j].motherLastname, array[j].name, array[j].age);
-
-                    // USE char:))))
-                    if (array[j].gender == 1)
-                    {
-                        printf("MALE  || ");
-                    }
-                    else
-                    {
-                        if (array[j].gender == 0)
-                        {
-                            printf("FEMALE   || ");
-                        }
-                    }
+                    printf("%12i || %9i || %16s || %16s || %9s || %10i || %12s ||", j + 1, array[j].enrolment, array[j].fatherLastname, array[j].motherLastname, array[j].name, array[j].age, array[j].gender);
                     printf("\n");
 
                     status++;
@@ -357,4 +360,33 @@ void printRegister(Tstudents array[], int i)
             getchar();
         }
     }
+}
+
+void writeTextFile(Tstudents array[], int size)
+{
+    char archiveName[50];
+    printf("Ingrese el nombre del archivo: ");
+    scanf("%s", archiveName);
+    strcat(archiveName, ".txt");
+
+    FILE *outputFile = freopen(archiveName, "w", stdout);
+
+    printf("NO. REGISTER || ENROLMENT || FATHER LASTNAME || MOTHER LASTNAME || NAME(S) ||  AGE  ||     GENDER     ||\n");
+    printf("======================================================================================================================\n");
+
+    for (int i = 0; i < size; i++)
+    {
+
+        if (array[i].status == 1)
+        {
+            printf("%12i || %9i || %16s || %16s || %9s || %10i || %12s ||", i + 1, array[i].enrolment, array[i].fatherLastname, array[i].motherLastname, array[i].name, array[i].age, array[i].gender);
+            printf("\n");
+        }
+    }
+
+    fclose(outputFile);
+
+    printf("Archive '%s' correctly generated.\n", archiveName);
+
+    return;
 }
