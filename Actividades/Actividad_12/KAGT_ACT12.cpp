@@ -392,7 +392,7 @@ void printRegister(Tstudents array[], int i)
 void writeTextFile(Tstudents array[], int size)
 {
     char fileName[50];
-    printf("Ingrese el nombre del archivo: ");
+    printf("File's name: ");
     validateString(fileName, sizeof(fileName));
     strcat(fileName, ".txt");
 

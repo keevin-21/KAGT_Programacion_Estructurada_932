@@ -3,29 +3,37 @@
 
 int main(int args, char *arg[])
 {
-    FILE *fa;
-    int position = 0;
+    FILE *file;
+    int size = 0;
     char fileName[50];
     int tempNum;
-    int tempNum2;
+    int enrolment;
     char name[20], fatherLastname[20], motherLastname[20];
     int age;
     char gender[10];
+    char line[100];
 
     strcpy(fileName, arg[1]);
     strcat(fileName, ".txt");
 
-    fa = fopen(fileName, "r");
-    if (fa)
+    file = fopen(fileName, "r");
+    if (file)
     {
-        do
+        while (fgets(line, sizeof(line), file) != NULL)
         {
-            fscanf(fa, "%d.- %d %s %s %s %d %s",
-                   &tempNum, &tempNum2, name, fatherLastname, motherLastname, &age, gender);
-            position++;
-        } while (!feof(fa));
-        fclose(fa);
-        return position - 1;
+
+            int variablesRead;
+
+            variablesRead = sscanf(line, "%i.- %i %s %s %s %i %s",
+                                   &tempNum, &enrolment, name, fatherLastname, motherLastname, age, gender);
+
+            if (variablesRead)
+            {
+                size++;
+            }
+        }
+        fclose(file);
+        return size - 1;
     }
     else
     {
