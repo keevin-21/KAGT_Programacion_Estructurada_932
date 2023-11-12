@@ -22,6 +22,7 @@ int selectionSort(Tstudents array[], int size);
 void swap(Tstudents array[], int i, int j);
 int partition(Tstudents array[], int low, int high);
 void quicksort(Tstudents array[], int low, int high);
+void counterRegisters();
 void printRegister(Tstudents array[], int i);
 void writeTextFile(Tstudents array[], int size);
 
@@ -153,6 +154,10 @@ void menu()
 
         case 7:
             writeTextFile(studentArray, i);
+            break;
+
+        case 8:
+            counterRegisters();
             break;
         }
         system("PAUSE");
@@ -323,6 +328,28 @@ void readTextFile(Tstudents array[], int *size)
     }
 }
 
+void counterRegisters()
+{
+    int count;
+    char fileName[50];
+    char cmd[50];
+    printf("Ingrese el nombre del archivo: ");
+    validateString(fileName, sizeof(fileName));
+
+    system("mingw32-gcc-6.3.0.exe registerCounter.c -o registerCounter"); // This line compile RegisterCounter.c.
+    sprintf(cmd, "RegisterCounter.exe %s", fileName);
+    count = system(cmd);
+
+    if (count != -1)
+    {
+        printf("El archivo %s contiene %d registros\n", fileName, count);
+    }
+    else
+    {
+        printf("El archivo no fue encontrado\n");
+    }
+}
+
 void printRegister(Tstudents array[], int i)
 {
     int status = 0;
@@ -364,12 +391,12 @@ void printRegister(Tstudents array[], int i)
 
 void writeTextFile(Tstudents array[], int size)
 {
-    char archiveName[50];
+    char fileName[50];
     printf("Ingrese el nombre del archivo: ");
-    scanf("%s", archiveName);
-    strcat(archiveName, ".txt");
+    validateString(fileName, sizeof(fileName));
+    strcat(fileName, ".txt");
 
-    FILE *outputFile = freopen(archiveName, "w", stdout);
+    FILE *outputFile = freopen(fileName, "w", stdout);
 
     printf("NO. REGISTER || ENROLMENT || FATHER LASTNAME || MOTHER LASTNAME || NAME(S) ||  AGE  ||     GENDER     ||\n");
     printf("======================================================================================================================\n");
@@ -386,7 +413,13 @@ void writeTextFile(Tstudents array[], int size)
 
     fclose(outputFile);
 
-    printf("Archive '%s' correctly generated.\n", archiveName);
+    printf("Archive '%s' correctly generated.\n", fileName);
 
     return;
 }
+
+/*
+do{
+
+} while (validateString(fileName, sizeof(fileName)) == -1);
+*/
