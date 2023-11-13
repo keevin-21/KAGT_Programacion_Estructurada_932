@@ -25,6 +25,7 @@ void quicksort(Tstudents array[], int low, int high);
 void counterRegisters();
 void printRegister(Tstudents array[], int i);
 void writeTextFile(Tstudents array[], int size);
+void writeDeletedTextFile(Tstudents array[], int size);
 
 int main()
 {
@@ -56,7 +57,7 @@ int msges()
 
 void menu()
 {
-    int option, sorted, i, search, found, loaded;
+    int option, sorted, i, search, found, loaded, remove;
     Tstudents studentArray[MAX_REGISTERS], temp;
     i = 0; // Start registers in zero
     loaded = 0;
@@ -103,6 +104,31 @@ void menu()
             break;
 
         case 3:
+            printf("Enrolment to be removed: ");
+            remove = validate(300000, 399999);
+            search = linearSearch(studentArray, i, remove);
+
+            if (linearSearch(studentArray, i, remove) != -1)
+            {
+                printf("Enrolment found...\n");
+            }
+            else
+            {
+                printf("Enrolment not found...\n");
+            }
+
+            if (studentArray[search].status == 0)
+            {
+                printf("Enrolment already removed.");
+            }
+            else
+            {
+                studentArray[search].status = 0;
+                printf("Now the enrolment %i has been removed.", remove);
+            }
+            break;
+
+        case 4:
             printf("Search enrolment: ");
             search = validate(300000, 399999);
 
@@ -123,10 +149,6 @@ void menu()
             {
                 printf("Enrolment not found.");
             }
-            break;
-
-        case 4:
-
             break;
 
         case 5:
@@ -159,7 +181,12 @@ void menu()
         case 8:
             counterRegisters();
             break;
+
+        case 9:
+            writeDeletedTextFile(studentArray, i);
+            break;
         }
+
         system("PAUSE");
     } while (option != 0);
 }
@@ -336,17 +363,17 @@ void counterRegisters()
     printf("Ingrese el nombre del archivo: ");
     validateString(fileName, sizeof(fileName));
 
-    system("mingw32-gcc-6.3.0.exe registerCounter.c -o registerCounter"); // This line compile RegisterCounter.c.
+    system("mingw32-gcc-6.3.0.exe registerCounter.c -o registerCounter");
     sprintf(cmd, "RegisterCounter.exe %s", fileName);
     count = system(cmd);
 
     if (count != -1)
     {
-        printf("El archivo %s contiene %d registros\n", fileName, count);
+        printf("El archivo %s contiene %d registros\n", fileName, count + 1);
     }
     else
     {
-        printf("El archivo no fue encontrado\n");
+        printf("File not found.\n");
     }
 }
 
@@ -371,7 +398,7 @@ void printRegister(Tstudents array[], int i)
             {
                 if (array[j].status == 1)
                 {
-                    printf("%12i || %9i || %16s || %16s || %9s || %10i || %12s ||", j + 1, array[j].enrolment, array[j].fatherLastname, array[j].motherLastname, array[j].name, array[j].age, array[j].gender);
+                    printf("%12i %9i %16s %16s %9s %10i %12s", j + 1, array[j].enrolment, array[j].fatherLastname, array[j].motherLastname, array[j].name, array[j].age, array[j].gender);
                     printf("\n");
 
                     status++;
@@ -406,7 +433,7 @@ void writeTextFile(Tstudents array[], int size)
 
         if (array[i].status == 1)
         {
-            printf("%12i || %9i || %16s || %16s || %9s || %10i || %12s ||", i + 1, array[i].enrolment, array[i].fatherLastname, array[i].motherLastname, array[i].name, array[i].age, array[i].gender);
+            printf("%12i %9i %16s %16s %9s %10i %12s", i + 1, array[i].enrolment, array[i].fatherLastname, array[i].motherLastname, array[i].name, array[i].age, array[i].gender);
             printf("\n");
         }
     }
@@ -418,8 +445,31 @@ void writeTextFile(Tstudents array[], int size)
     return;
 }
 
-/*
-do{
+void writeDeletedTextFile(Tstudents array[], int size)
+{
+    char fileName[50];
+    printf("File's name: ");
+    validateString(fileName, sizeof(fileName));
+    strcat(fileName, ".txt");
 
-} while (validateString(fileName, sizeof(fileName)) == -1);
-*/
+    FILE *outputFile = freopen(fileName, "w", stdout);
+
+    printf("NO. REGISTER || ENROLMENT || FATHER LASTNAME || MOTHER LASTNAME || NAME(S) ||  AGE  ||     GENDER     ||\n");
+    printf("======================================================================================================================\n");
+
+    for (int i = 0; i < size; i++)
+    {
+
+        if (array[i].status == 0)
+        {
+            printf("%12i %9i %16s %16s %9s %10i %12s", i + 1, array[i].enrolment, array[i].fatherLastname, array[i].motherLastname, array[i].name, array[i].age, array[i].gender);
+            printf("\n");
+        }
+    }
+
+    fclose(outputFile);
+
+    printf("Archive '%s' correctly generated.\n", fileName);
+
+    return;
+}

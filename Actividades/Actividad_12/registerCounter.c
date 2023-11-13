@@ -6,7 +6,7 @@ int main(int args, char *arg[])
     FILE *file;
     int size = 0;
     char fileName[50];
-    int tempNum;
+    int x;
     int enrolment;
     char name[20], fatherLastname[20], motherLastname[20];
     int age;
@@ -25,7 +25,7 @@ int main(int args, char *arg[])
             int variablesRead;
 
             variablesRead = sscanf(line, "%i.- %i %s %s %s %i %s",
-                                   &tempNum, &enrolment, name, fatherLastname, motherLastname, age, gender);
+                                   &x, &enrolment, name, fatherLastname, motherLastname, &age, gender);
 
             if (variablesRead)
             {
