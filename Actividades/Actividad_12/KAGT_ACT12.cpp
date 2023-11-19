@@ -323,7 +323,7 @@ void readTextFile(Tstudents array[], int *size)
     FILE *file;
     char line[100];
 
-    file = fopen("G:\\My Drive\\UABC\\TercerSemestre\\KAGT_Programacion_Estructurada_932\\Actividades\\Actividad_12\\datos.txt", "r");
+    file = fopen("G:\\My Drive\\UABC\\TercerSemestre\\KAGT_Programacion_Estructurada_932\\Actividades\\Actividad_12\\datosww.txt", "r");
 
     if (file == NULL)
     {
