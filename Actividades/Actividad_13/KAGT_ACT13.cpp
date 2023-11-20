@@ -1,3 +1,9 @@
+/*
+Kevin Alejandro Gonzalez Torres - 372354
+
+Creado el: 13 de Noviembre del 2023 / Modificado el 19 de Noviembre del 2023
+*/
+
 #include "kewvyValidates.h"
 #define MAX_REGISTERS 5000
 #define ADD_REGISTERS 100
@@ -29,8 +35,7 @@ void quicksort(Tworker array[], int low, int high);
 void counterRegisters();
 void printRegister(Tworker array[], int i);
 void writeTextFile(Tworker array[], int size);
-void writeDeletedTextFile(Tworker array[], int size);
-void printTextFile(Tworker array[], int i);
+void printTextFile();
 void createBinaryFile(Tworker array[], int size);
 int readBinaryFile(Tworker array[], int size);
 void printDeleted(Tworker array[], int i);
@@ -61,13 +66,13 @@ int msges()
     printf("\n\t11.- Print deleted registers");
     printf("\n\t0.- Exit\n\n");
     printf("Select an option: ");
-    option = validate(0, 9);
+    option = validate(0, 11);
     return option;
 }
 
 void menu()
 {
-    int option, sorted, i, search, found, remove;
+    int option, sorted, i, search, found, remove, loaded;
     Tworker workerArray[MAX_REGISTERS], temp;
     i = 0; // Start registers in zero
     sorted = 0;
@@ -96,6 +101,7 @@ void menu()
                     workerArray[i++] = temp;
                 }
             }
+            printf("Registers added.\n");
             break;
         case 2:
             printf("Enter the ID of the worker you want to edit: ");
@@ -109,7 +115,7 @@ void menu()
             {
                 printf("The ID [%i] was found.\n", search);
                 printRegister(workerArray, found);
-                printf("Enter the new data:\n");
+                printf("New data generated.\n");
                 workerArray[found] = autoDataReg();
             }
             break;
@@ -192,7 +198,7 @@ void menu()
             break;
 
         case 8:
-            printTextFile(workerArray, i);
+            printTextFile();
             break;
 
         case 9:
@@ -200,7 +206,16 @@ void menu()
             break;
 
         case 10:
-            readBinaryFile(workerArray, i);
+            loaded = 0;
+            if (loaded == 0)
+            {
+                loaded = readBinaryFile(workerArray, i);
+            }
+            else
+            {
+                printf("The binary file is already loaded.\n");
+            }
+            loaded++;
             break;
 
         case 11:
@@ -361,7 +376,7 @@ void printRegister(Tworker array[], int i)
             {
                 if (array[j].status == 1)
                 {
-                    printf("%12i %9i %16s %16s %9s %10i %12s", j + 1, array[j].id, array[j].fatherLastname, array[j].motherLastname, array[j].name, array[j].age, array[j].gender);
+                    printf("%12i %9i %16s %16s %9s %16s %10i %16s", j + 1, array[j].id, array[j].fatherLastname, array[j].motherLastname, array[j].name, array[j].jobPosition, array[j].age, array[j].gender);
                     printf("\n");
 
                     status++;
@@ -392,7 +407,7 @@ void writeTextFile(Tworker array[], int size)
     {
         if (array[i].status == 1)
         {
-            printf("%12i %9i %16s %16s %9s %12s %10i %12s", i + 1, array[i].id, array[i].fatherLastname, array[i].motherLastname, array[i].name, array[i].jobPosition, array[i].age, array[i].gender);
+            printf("%12i %9i %16s %16s %9s %16s %10i %16s", i + 1, array[i].id, array[i].fatherLastname, array[i].motherLastname, array[i].name, array[i].jobPosition, array[i].age, array[i].gender);
             printf("\n");
         }
     }
@@ -411,7 +426,7 @@ void printTextFile()
     validateString(fileName, sizeof(fileName));
     strcat(fileName, ".txt");
 
-    FILE *outputFile = freopen(fileName, "r", stdout);
+    FILE *outputFile = fopen(fileName, "r");
 
     if (outputFile == NULL)
     {
@@ -425,29 +440,6 @@ void printTextFile()
         }
     }
 }
-
-/*
-void createBinaryFile(Tworker array[], int size)
-{
-    char fileName[50];
-    printf("File's name: ");
-    validateString(fileName, sizeof(fileName));
-    strcat(fileName, ".tmp");
-
-    FILE *outputFile = fopen(fileName, "wb");
-
-    for (int i = 0; i < size; i++)
-    {
-        fwrite(&array[i], sizeof(Tworker), 1, outputFile);
-    }
-
-    fclose(outputFile);
-
-    printf("Archive '%s' correctly generated.\n", fileName);
-
-    return;
-}
-*/
 
 void createBinaryFile(Tworker array[], int size)
 {
@@ -485,8 +477,8 @@ int readBinaryFile(Tworker array[], int size)
             i++;
         }
         fclose(fa);
-        printf("El archivo se ha cargado con exito\n");
-        system("pause");
+        printf("File correctly loaded.\n");
+        system("PAUSE");
     }
     return i;
 }
@@ -512,7 +504,7 @@ void printDeleted(Tworker array[], int i)
             {
                 if (array[j].status == 0)
                 {
-                    printf("%12i %9i %16s %16s %9s %10i %12s", j + 1, array[j].id, array[j].fatherLastname, array[j].motherLastname, array[j].name, array[j].age, array[j].gender);
+                    printf("%12i %9i %16s %16s %9s %10i %16s", j + 1, array[j].id, array[j].fatherLastname, array[j].motherLastname, array[j].name, array[j].age, array[j].gender);
                     printf("\n");
 
                     status++;
