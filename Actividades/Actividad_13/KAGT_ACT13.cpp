@@ -30,6 +30,10 @@ void counterRegisters();
 void printRegister(Tworker array[], int i);
 void writeTextFile(Tworker array[], int size);
 void writeDeletedTextFile(Tworker array[], int size);
+void printTextFile(Tworker array[], int i);
+void createBinaryFile(Tworker array[], int size);
+int readBinaryFile(Tworker array[], int size);
+void printDeleted(Tworker array[], int i);
 
 int main()
 {
@@ -63,12 +67,10 @@ int msges()
 
 void menu()
 {
-    int option, sorted, i, search, found, loaded, remove;
+    int option, sorted, i, search, found, remove;
     Tworker workerArray[MAX_REGISTERS], temp;
     i = 0; // Start registers in zero
-    loaded = 0;
     sorted = 0;
-    int j;
 
     do
     {
@@ -78,10 +80,21 @@ void menu()
         switch (option)
         {
         case 1:
-            for (j = 0; j < ADD_REGISTERS; j++)
+            for (int j = 0; j < ADD_REGISTERS; j++)
             {
-                workerArray[i] = autoDataReg();
-                i++;
+                if (j + 1 > MAX_REGISTERS)
+                {
+                    printf("Register full\n");
+                }
+                else
+                {
+                    temp = autoDataReg();
+                    while (linearSearch(workerArray, i, temp.id) != -1)
+                    {
+                        temp.id = randomNumber(300000, 399999);
+                    }
+                    workerArray[i++] = temp;
+                }
             }
             break;
         case 2:
@@ -131,6 +144,14 @@ void menu()
             printf("Enter the ID of the worker you want to search: ");
             search = validate(100000, 199999);
             found = linearSearch(workerArray, i, search);
+            if (sorted == 0)
+            {
+                found = linearSearch(workerArray, i, search);
+            }
+            else
+            {
+                found = binarySearch(workerArray, 300000, 399999, search);
+            }
             if (found == -1)
             {
                 printf("The ID [%i] was not found.\n", search);
@@ -144,14 +165,21 @@ void menu()
 
         case 5:
             printf("Sorting...\n");
-            sorted = selectionSort(workerArray, i);
-            if (sorted == 1)
+            if (sorted == 0)
             {
-                printf("The registers were sorted.\n");
+                if (i <= 500)
+                {
+                    sorted = selectionSort(workerArray, i);
+                }
+                else
+                {
+                    quicksort(workerArray, 0, i);
+                    printf("Register is now sorted.");
+                }
             }
             else
             {
-                printf("The registers were not sorted.\n");
+                printf("Register already sorted.");
             }
             break;
 
@@ -164,19 +192,19 @@ void menu()
             break;
 
         case 8:
-
+            printTextFile(workerArray, i);
             break;
 
         case 9:
-
+            createBinaryFile(workerArray, i);
             break;
 
         case 10:
-
+            readBinaryFile(workerArray, i);
             break;
 
         case 11:
-
+            printDeleted(workerArray, i);
             break;
         }
 
@@ -376,17 +404,29 @@ void writeTextFile(Tworker array[], int size)
     return;
 }
 
-void printTextFile(Tworker array[], int i)
+void printTextFile()
 {
     char fileName[50];
     printf("File's name: ");
     validateString(fileName, sizeof(fileName));
     strcat(fileName, ".txt");
 
-    FILE *outputFile = freopen(fileName, "w", stdout);
-    
+    FILE *outputFile = freopen(fileName, "r", stdout);
+
+    if (outputFile == NULL)
+    {
+        printf("File doesn't exist.\n");
+    }
+    {
+        char c;
+        while ((c = fgetc(outputFile)) != EOF)
+        {
+            printf("%c", c);
+        }
+    }
 }
 
+/*
 void createBinaryFile(Tworker array[], int size)
 {
     char fileName[50];
@@ -407,32 +447,85 @@ void createBinaryFile(Tworker array[], int size)
 
     return;
 }
+*/
 
-void writeDeletedTextFile(Tworker array[], int size)
+void createBinaryFile(Tworker array[], int size)
 {
-    char fileName[50];
-    printf("File's name: ");
-    validateString(fileName, sizeof(fileName));
-    strcat(fileName, ".txt");
-
-    FILE *outputFile = freopen(fileName, "w", stdout);
-
-    printf("NO. REGISTER || ENROLMENT || FATHER LASTNAME || MOTHER LASTNAME || NAME(S) ||  AGE  ||     GENDER     ||\n");
-    printf("======================================================================================================================\n");
-
-    for (int i = 0; i < size; i++)
+    FILE *outputFile;
+    char nom[11] = "datos.dll";
+    rename("datos.dll", "datos.tmp");
+    outputFile = fopen(nom, "wb");
+    if (outputFile == NULL)
     {
+        printf("No se ha encontrado el archivo\n");
+        system("pause");
+    }
+    else
+    {
+        fwrite(array, sizeof(Tworker), size, outputFile);
+        fclose(outputFile);
+    }
+}
 
-        if (array[i].status == 0)
+int readBinaryFile(Tworker array[], int size)
+{
+    int i = 0;
+    FILE *fa;
+    fa = fopen("datos.dll", "rb");
+    if (fa == NULL)
+    {
+        printf("No se ha encontrado el archivo\n");
+        system("pause");
+    }
+    else
+    {
+        while (fread(&array[i], sizeof(Tworker), 1, fa) == 1 && size < MAX_REGISTERS)
         {
-            printf("%12i %9i %16s %16s %9s %10i %12s", i + 1, array[i].id, array[i].fatherLastname, array[i].motherLastname, array[i].name, array[i].age, array[i].gender);
-            printf("\n");
+            array[i].status = randomNumber(0, 1);
+            i++;
+        }
+        fclose(fa);
+        printf("El archivo se ha cargado con exito\n");
+        system("pause");
+    }
+    return i;
+}
+
+void printDeleted(Tworker array[], int i)
+{
+    int status = 0;
+    int page = 0;
+    int tam = 0;
+    int j;
+
+    while (tam < i)
+    {
+        system("CLS");
+
+        printf("REGISTER LIST\n");
+        printf("NO. REGISTER || ENROLMENT || FATHER LASTNAME || MOTHER LASTNAME || NAME(S) ||  AGE  ||     GENDER     ||\n");
+        printf("======================================================================================================================\n");
+
+        for (j = page * 40; j < (page + 1) * 40; j++)
+        {
+            if (tam < i)
+            {
+                if (array[j].status == 0)
+                {
+                    printf("%12i %9i %16s %16s %9s %10i %12s", j + 1, array[j].id, array[j].fatherLastname, array[j].motherLastname, array[j].name, array[j].age, array[j].gender);
+                    printf("\n");
+
+                    status++;
+                    tam++;
+                }
+            }
+        }
+        page++;
+
+        if (tam < i)
+        {
+            printf("PRESS ENTER TO SEE MORE REGISTERS\n");
+            getchar();
         }
     }
-
-    fclose(outputFile);
-
-    printf("Archive '%s' correctly generated.\n", fileName);
-
-    return;
 }
