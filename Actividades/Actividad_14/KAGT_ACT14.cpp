@@ -1,3 +1,9 @@
+/*
+Kevin Alejandro Gonzalez Torres - 372354
+
+Creado el: 26 de Noviembre del 2023 / Modificado el 28 de Noviembre del 2023
+*/
+
 #include "junior.h"
 
 typedef int TKey;
@@ -279,7 +285,7 @@ void searchRecord(FILE *binaryFile, TIndex *indices, int numberOfRecords, bool s
         foundIndex = linearSearch(indices, numberOfRecords, enrollmentToSearch);
     }
 
-    if (foundIndex != -1 && recordFound.status == 1)
+    if (foundIndex != -1 || recordFound.status == 1)
     {
         fseek(binaryFile, indices[foundIndex].index * sizeof(TWorker), SEEK_SET);
 
