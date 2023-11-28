@@ -415,32 +415,27 @@ void generateTxtFile(FILE *archivoBinario, TIndex *indices, int cantidadRegistro
     printf("Archivo de texto generado con éxito.\n");
 }
 
-void packageRegisters(TIndex *index, int *n)
+void packageRegisters()
 {
+    FILE *doc = fopen("datos.dat", "rb");
+    ;
+    FILE *fa = fopen("datos.bak", "wb");
+
     TWrkr reg;
-    FILE *fa;
-    FILE *fb;
 
-    rename("datos.dat", "datos.bak");
-
-    fa = fopen("datos.dat", "wb");
-    fb = fopen("datos.bak", "rb");
-
-    while (fread(&reg, sizeof(TWrkr), 1, fb) == 1)
+    if (doc)
     {
-        if (reg.status == 1)
+        while (fread(&reg, sizeof(TWrkr), 1, doc))
         {
-            fwrite(&reg, sizeof(TWrkr), 1, fa);
+            if (reg.status == 1)
+            {
+                fwrite(&reg, sizeof(TWrkr), 1, fa);
+            }
         }
     }
 
+    fclose(doc);
     fclose(fa);
-    fclose(fb);
-
-    *n = 0;
-    cargarIndicesDesdeArchivo(fa, index, n);
-
-    printf("Archivo empaquetado con exito\n");
 }
 
 int msges()
@@ -521,7 +516,7 @@ int main()
             break;
 
         case 8:
-            packageRegisters(indices, &MAX_REGISTERS);
+            packageRegisters();
             break;
 
         case 9:
